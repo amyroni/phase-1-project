@@ -5,6 +5,10 @@ body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
+a {
+  color: black;
+}
+
 p.title {
   line-height: 100%;
   font-weight: bold;
@@ -146,4 +150,8 @@ li {
 
 #list-name-select {
   padding: 5px;
+}
+
+.heart {
+  float: right;
 }
