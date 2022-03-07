@@ -8,9 +8,18 @@ p.title {
   font-weight: bold;
 }
 
-img {
+img.thumbnail {
   width: 100px;
   margin-bottom: 10px;
+}
+
+img.big-image {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+div#header {
+  height: 300px;
 }
 
 div.thumbnail {
@@ -23,4 +32,46 @@ div.thumbnail {
   text-align: center;
   width: 175px;
   height: 300px;
+}
+
+div.custom-overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+div.details-inner-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  padding: 50px; 
+  display: block;
+}
+
+button#exit-btn {
+  float: right;
+  padding: 5px 15px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: solid 1px #5877b9;
+  background: #fff;
+  transition: all 0.3s ease-out;
+  color: #000;
+  font-weight: normal;
+}
+
+button#exit-btn:hover {
+  background: #5877b9;
+  color: #fff;
 }

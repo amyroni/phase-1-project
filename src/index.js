@@ -1,5 +1,7 @@
 const searchForm = document.querySelector("#list-name-form");
 const searchSelect = document.querySelector("#list-name-select");
+const detailsContainer = document.querySelector("#details-container");
+const wishlistContainer = document.querySelector("#wishlist");
 
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -18,6 +20,7 @@ function loadThumbnail(book) {
   thumbnailCard.className = "thumbnail";
   const thumbnailImg = document.createElement("img");
   thumbnailImg.src = book.book_image;
+  thumbnailImg.className = "thumbnail";
   thumbnailImg.style.cursor = "pointer";
   thumbnailImg.addEventListener("click", () => showDetails(book));
   const thumbnailHeader = document.createElement("p");
@@ -30,13 +33,48 @@ function loadThumbnail(book) {
 }
 
 function showDetails(book) {
+  detailsContainer.innerHTML = "";
+  const detailsInnerContainer = document.createElement("div");
+  detailsInnerContainer.className = "details-inner-container";
+  const exitBtn = document.createElement("button")
+  exitBtn.textContent = "x";
+  exitBtn.id = "exit-btn";
+  exitBtn.addEventListener("click", () => hideDetails());
   const bookImg = document.createElement("img");
   bookImg.src = book.book_image;
+  bookImg.className = "big-image";
   const bookTitle = document.createElement("h2");
-  bookTitle.textContent = book.title;
+  bookTitle.textContent = toTitleCase(book.title);
   const bookDescription = document.createElement("p");
   bookDescription.textContent = book.description;
-  document.querySelector("#details-container").append(bookImg, bookTitle, bookDescription);
+  const addBtn = document.createElement("button");
+  addBtn.textContent = "Add to wishlist";
+  addBtn.addEventListener("click", () => addToCart(book));
+  detailsInnerContainer.append(exitBtn, bookImg, bookTitle, bookDescription, addBtn);
+  detailsContainer.append(detailsInnerContainer);
+  detailsContainer.style.display = "block";
+}
+
+function addToCart(book) {
+  hideDetails();
+  const li = document.createElement("li");
+  const title = toTitleCase(book.title);
+  const buyBtn = document.createElement("button");
+  buyBtn.textContent = "Buy";
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "Remove";
+  removeBtn.addEventListener("click", () => deleteItem(li));
+
+  li.append(title, buyBtn, removeBtn);
+  document.querySelector("#booklist").append(li);
+}
+
+function deleteItem(item) {
+  item.remove();
+}
+
+function hideDetails() {
+  detailsContainer.style.display = "none";
 }
 
 function toTitleCase(str) {
