@@ -8,25 +8,34 @@
     <script defer type="text/javascript" src="src/index.js"></script>
   </head>
   <body>
-    <div class="container d-flex-block align-items-center" id="header">
-      <h1>New York Times Book Search App</h1>
-      <h4>Look up your next read!</h4>
+    <div class="container-fluid d-flex align-items-center" id="header">
+      <div class="container">
+        <h1>New York Times Book Search App</h1>
+        <h4>Look up your next read!</h4>
+        <div class="container mt-4" id="search-bar">
+          <form id="list-name-form">
+            <select id="list-name-select">
+              <option value="trade-fiction-paperback">Trade Fiction Paperback</option>
+              <option value="hardcover-fiction">Hardcover Fiction</option>
+              <option value="young-adult-hardcover">Young Adult Hardcover</option>
+            </select>
+            <button type="submit" class="custom-button">Search</button>
+          </form>
+        </div>
+        <span id="wishlist-icon"><img src="./assets/wishlist-icon.png" id="wishlist-img"></span>
+      </div>
     </div>
-    <div class="container" id="search-bar">
-      <form id="list-name-form">
-        <select id="list-name-select">
-          <option value="trade-fiction-paperback">Trade Fiction Paperback</option>
-          <option value="hardcover-fiction">Hardcover Fiction</option>
-          <option value="young-adult-hardcover">Young Adult Hardcover</option>
-        </select>
-        <input type="submit" value="Search">
-      </form>
-    </div>
-    <div class="container d-flex justify-content-center flex-wrap" id="books-container")></div>
-    <div class="container custom-overlay" id="details-container"></div>
-    <div id="wishlist">
-      <h2>Wishlist:</h2>
-      <ul id="booklist"></ul>
+
+    <div class="container-fluid" id="body-container">
+      <div id="wishlist-overlay">
+        <button type="button" class="custom-button" id="close-wishlist" style="float: right;">Close</button><br>
+        <h4 style="font-weight: bold; color: rgba(93, 189, 206);">Wishlist:</h4>
+        <ul id="booklist"></ul>
+      </div>
+  
+      <div class="container d-flex justify-content-center flex-wrap" id="books-container"></div>
+
+      <div class="container-fluid custom-overlay" id="details-container"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

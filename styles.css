@@ -19,7 +19,8 @@ img.big-image {
 }
 
 div#header {
-  height: 300px;
+  background-color: rgba(93, 189, 206);
+  height: 250px;
 }
 
 div.thumbnail {
@@ -34,6 +35,22 @@ div.thumbnail {
   height: 300px;
 }
 
+div#wishlist-overlay {
+  padding: 20px;
+  float: right;
+  position: absolute;
+  display: none; 
+  width: 350px; 
+  height: 700px; 
+  top: 250px;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  z-index: 2; 
+  text-align: left;
+}
+
 div.custom-overlay {
   position: fixed; /* Sit on top of the page content */
   display: none; /* Hidden by default */
@@ -45,7 +62,6 @@ div.custom-overlay {
   bottom: 0;
   background-color: rgba(0,0,0,0.5); /* Black background with opacity */
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-  cursor: pointer; /* Add a pointer on hover */
 }
 
 div.details-inner-container {
@@ -59,19 +75,60 @@ div.details-inner-container {
   display: block;
 }
 
-button#exit-btn {
-  float: right;
+button.custom-button {
   padding: 5px 15px;
   font-size: 15px;
   border-radius: 10px;
-  border: solid 1px #5877b9;
+  border: solid 1px rgb(30, 61, 66);
   background: #fff;
   transition: all 0.3s ease-out;
   color: #000;
   font-weight: normal;
 }
 
-button#exit-btn:hover {
-  background: #5877b9;
+button.custom-button:hover {
+  background: rgba(93, 189, 206);
   color: #fff;
+}
+
+button.custom-button#exit-btn {
+  float: right;
+  position: absolute;
+  height: 40px;
+  margin: 20px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2; 
+}
+
+button.custom-button#buyBtn, button.custom-button#removeBtn{
+  padding: 1px 5px;
+  margin: 0 5px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+span#wishlist-icon {
+  float: right;
+  margin: 0 0 -80px 0;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 10px;
+  border: solid 1px rgb(30, 61, 66);
+  background: white;
+  padding: 5px 10px 5px 15px;
+}
+
+img#wishlist-img {
+  width: 30px;
+}
+
+li {
+  border-bottom: 1px solid rgba(93, 189, 206);
+  padding: 10px 0;
 }

@@ -1,10 +1,12 @@
 const searchForm = document.querySelector("#list-name-form");
 const searchSelect = document.querySelector("#list-name-select");
 const detailsContainer = document.querySelector("#details-container");
-const wishlistContainer = document.querySelector("#wishlist");
+const booksContainer = document.querySelector("#books-container");
+let openWishlist = false;
 
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  booksContainer.innerHTML = "";
   loadBooks(searchSelect.value);
   searchForm.reset();
 });
@@ -29,7 +31,7 @@ function loadThumbnail(book) {
   const thumbnailRank = document.createElement("p");
   thumbnailRank.textContent = `Rank: ${book.rank}`;
   thumbnailCard.append(thumbnailImg, thumbnailHeader, thumbnailRank);
-  document.querySelector("#books-container").append(thumbnailCard);
+  booksContainer.append(thumbnailCard);
 }
 
 function showDetails(book) {
@@ -38,6 +40,7 @@ function showDetails(book) {
   detailsInnerContainer.className = "details-inner-container";
   const exitBtn = document.createElement("button")
   exitBtn.textContent = "x";
+  exitBtn.className = "custom-button";
   exitBtn.id = "exit-btn";
   exitBtn.addEventListener("click", () => hideDetails());
   const bookImg = document.createElement("img");
@@ -45,27 +48,37 @@ function showDetails(book) {
   bookImg.className = "big-image";
   const bookTitle = document.createElement("h2");
   bookTitle.textContent = toTitleCase(book.title);
+  const bookAuthor = document.createElement("h4");
+  bookAuthor.textContent = `Author: ${book.author}`;
   const bookDescription = document.createElement("p");
   bookDescription.textContent = book.description;
   const addBtn = document.createElement("button");
   addBtn.textContent = "Add to wishlist";
+  addBtn.className = "custom-button";
   addBtn.addEventListener("click", () => addToCart(book));
-  detailsInnerContainer.append(exitBtn, bookImg, bookTitle, bookDescription, addBtn);
+  detailsInnerContainer.append(exitBtn, bookImg, bookTitle, bookAuthor, bookDescription, addBtn);
   detailsContainer.append(detailsInnerContainer);
   detailsContainer.style.display = "block";
 }
 
 function addToCart(book) {
+  openWishlist = true;
+  document.querySelector("#wishlist-overlay").style.display = "block";
   hideDetails();
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
+  const br = document.createElement("br");
   const buyBtn = document.createElement("button");
   buyBtn.textContent = "Buy";
+  buyBtn.className = "custom-button";
+  buyBtn.id = "buyBtn";
   const removeBtn = document.createElement("button");
   removeBtn.textContent = "Remove";
+  removeBtn.className = "custom-button";
+  removeBtn.id = "removeBtn";
   removeBtn.addEventListener("click", () => deleteItem(li));
 
-  li.append(title, buyBtn, removeBtn);
+  li.append(title, br, buyBtn, removeBtn);
   document.querySelector("#booklist").append(li);
 }
 
@@ -81,4 +94,18 @@ function toTitleCase(str) {
   return str.toLowerCase().split(' ').map(function (word) {
     return (word.charAt(0).toUpperCase() + word.slice(1));
   }).join(' ');
+}
+
+// CLOSE WISHLIST - BUTTON INSIDE WISHLIST
+document.querySelector("#close-wishlist").addEventListener("click", () => {
+  toggleWishlist();
+})
+
+// OPEN/CLOSE WISHLIST - CART ICON
+document.querySelector("#wishlist-icon").addEventListener("click", () => toggleWishlist())
+function toggleWishlist() {
+  openWishlist = !openWishlist;
+  if (openWishlist) {
+    document.querySelector("#wishlist-overlay").style.display = "block";
+  } else { document.querySelector("#wishlist-overlay").style.display = "none" }
 }
