@@ -37,7 +37,11 @@ function loadThumbnail(book) {
 function showDetails(book) {
   detailsContainer.innerHTML = "";
   const detailsInnerContainer = document.createElement("div");
-  detailsInnerContainer.className = "details-inner-container";
+  detailsInnerContainer.classList = "details-inner-container d-flex inline";
+  const leftContainer = document.createElement("div");
+  leftContainer.id = "leftContainer";
+  const rightContainer = document.createElement("div");
+  rightContainer.id = "rightContainer";
   const exitBtn = document.createElement("button")
   exitBtn.textContent = "x";
   exitBtn.className = "custom-button";
@@ -56,7 +60,10 @@ function showDetails(book) {
   addBtn.textContent = "Add to wishlist";
   addBtn.className = "custom-button";
   addBtn.addEventListener("click", () => addToCart(book));
-  detailsInnerContainer.append(exitBtn, bookImg, bookTitle, bookAuthor, bookDescription, addBtn);
+
+  leftContainer.append(bookImg);
+  rightContainer.append(bookTitle, bookAuthor, bookDescription, addBtn);
+  detailsInnerContainer.append(exitBtn, leftContainer, rightContainer);
   detailsContainer.append(detailsInnerContainer);
   detailsContainer.style.display = "block";
 }
