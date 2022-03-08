@@ -59,6 +59,7 @@ function loadThumbnail(book) {
   let exists2;
   const thumbnailCard = document.createElement("div");
   thumbnailCard.className = "thumbnail";
+  thumbnailCard.style.backgroundImage = `url("${book.book_image}")`;
   const thumbnailRank = document.createElement("span");
   thumbnailRank.textContent = `#${book.rank}`;
   thumbnailRank.id = "rank";
@@ -72,23 +73,24 @@ function loadThumbnail(book) {
     if (exists) {
       heart.textContent = "♥";
       heart.style.color = "red";
+      heart.style.padding = "4px 10px 2px 10px";
     } else { 
       heart.textContent = "♡" ;
       heart.style.color = "black";
+      heart.style.padding = "4px 8px 2px 8px";
     }
   })
   heart.className = "heart";
   const br = document.createElement("br");
-  const thumbnailImg = document.createElement("img");
-  thumbnailImg.src = book.book_image;
-  thumbnailImg.className = "thumbnail";
-  thumbnailImg.style.cursor = "pointer";
-  console.log(exists2)
-  thumbnailImg.addEventListener("click", () => showDetails(book, heart, exists2));
-  const thumbnailHeader = document.createElement("p");
-  thumbnailHeader.textContent = toTitleCase(book.title);
-  thumbnailHeader.className = "title";
-  thumbnailCard.append(thumbnailRank, heart, br, thumbnailImg, thumbnailHeader);
+  // const thumbnailImg = document.createElement("img");
+  // thumbnailImg.src = book.book_image;
+  // thumbnailImg.className = "thumbnail";
+  // thumbnailImg.style.cursor = "pointer";
+  thumbnailCard.addEventListener("click", () => showDetails(book, heart, exists2));
+  // const thumbnailHeader = document.createElement("p");
+  // thumbnailHeader.textContent = toTitleCase(book.title);
+  // thumbnailHeader.className = "title";
+  thumbnailCard.append(thumbnailRank, heart, br);
   booksContainer.append(thumbnailCard);
 }
 
@@ -139,6 +141,7 @@ function showDetails(book, heart, exists) {
 function addToWishlist(book, heart) {
   heart.textContent = "♥";
   heart.style.color = "red";
+  heart.style.padding = "4px 10px 2px 10px";
   openWishlist = true;
   wishlistOverlay.style.right = "0";
   hideDetails();

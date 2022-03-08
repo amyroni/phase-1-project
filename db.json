@@ -1,3 +1,106 @@
 {
-  "wishlist": []
+  "wishlist": [
+    {
+      "title": "ANATOMY",
+      "author": "Dana Schwartz",
+      "descipription": "Hazel and Jack work together to solve a mystery in 19th-century Edinburgh.",
+      "buy_links": [
+        {
+          "name": "Amazon",
+          "url": "https://www.amazon.com/dp/1250774152?tag=NYTBSREV-20"
+        },
+        {
+          "name": "Apple Books",
+          "url": "https://goto.applebooks.apple/9781250865069?at=10lIEQ"
+        },
+        {
+          "name": "Barnes and Noble",
+          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781250865069"
+        },
+        {
+          "name": "Books-A-Million",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FANATOMY%252FDana%252BSchwartz%252F9781250865069&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DANATOMY%252BDana%252BSchwartz"
+        },
+        {
+          "name": "Bookshop",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9781250865069&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DANATOMY"
+        },
+        {
+          "name": "IndieBound",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9781250865069%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DANATOMY%2BDana%2BSchwartz%26aff%3DNYT"
+        }
+      ],
+      "rank": 3,
+      "book_image": "https://storage.googleapis.com/du-prd/books/images/9781250774156.jpg",
+      "id": 1
+    },
+    {
+      "title": "AIN'T BURNED ALL THE BRIGHT",
+      "author": "Jason Reynolds.",
+      "descipription": "An emotional look into the life of a Black family living through 2020.",
+      "buy_links": [
+        {
+          "name": "Amazon",
+          "url": "https://www.amazon.com/dp/1534439463?tag=NYTBSREV-20"
+        },
+        {
+          "name": "Apple Books",
+          "url": "https://goto.applebooks.apple/9781534439467?at=10lIEQ"
+        },
+        {
+          "name": "Barnes and Noble",
+          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781534439467"
+        },
+        {
+          "name": "Books-A-Million",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FAIN%252527T%252BBURNED%252BALL%252BTHE%252BBRIGHT%252FJason%252BReynolds.%252F9781534439467&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DAIN%252527T%252BBURNED%252BALL%252BTHE%252BBRIGHT%252BJason%252BReynolds."
+        },
+        {
+          "name": "Bookshop",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9781534439467&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DAIN%2527T%2BBURNED%2BALL%2BTHE%2BBRIGHT"
+        },
+        {
+          "name": "IndieBound",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9781534439467%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DAIN%2527T%2BBURNED%2BALL%2BTHE%2BBRIGHT%2BJason%2BReynolds.%26aff%3DNYT"
+        }
+      ],
+      "rank": 4,
+      "book_image": "https://storage.googleapis.com/du-prd/books/images/9781534439467.jpg",
+      "id": 2
+    },
+    {
+      "title": "ONE OF US IS LYING",
+      "author": "Karen M. McManus",
+      "descipription": "For five students, a detour into detention ends in murder.",
+      "buy_links": [
+        {
+          "name": "Amazon",
+          "url": "https://www.amazon.com/One-Us-Lying-Karen-McManus/dp/1524714682?tag=NYTBSREV-20"
+        },
+        {
+          "name": "Apple Books",
+          "url": "https://goto.applebooks.apple/9781524714680?at=10lIEQ"
+        },
+        {
+          "name": "Barnes and Noble",
+          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781524714680"
+        },
+        {
+          "name": "Books-A-Million",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FONE%252BOF%252BUS%252BIS%252BLYING%252FKaren%252BM.%252BMcManus%252F9781524714680&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DONE%252BOF%252BUS%252BIS%252BLYING%252BKaren%252BM.%252BMcManus"
+        },
+        {
+          "name": "Bookshop",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9781524714680&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DONE%2BOF%2BUS%2BIS%2BLYING"
+        },
+        {
+          "name": "IndieBound",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9781524714680%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DONE%2BOF%2BUS%2BIS%2BLYING%2BKaren%2BM.%2BMcManus%26aff%3DNYT"
+        }
+      ],
+      "rank": 1,
+      "book_image": "https://storage.googleapis.com/du-prd/books/images/9781524714680.jpg",
+      "id": 3
+    }
+  ]
 }
