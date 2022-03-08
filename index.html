@@ -16,10 +16,15 @@
           <form id="list-name-form">
             <select id="list-name-select">
               <option value="" disabled selected>Select List Name</option>
-              <option value="trade-fiction-paperback">Trade Fiction Paperback</option>
-              <option value="travel">Travel</option>
               <option value="hardcover-fiction">Hardcover Fiction</option>
+              <option value="trade-fiction-paperback">Trade Fiction Paperback</option>
+              <option value="hardcover-nonfiction">Hardcover Nonfiction</option>
+              <option value="paperback-nonfiction">Paperback Nonfiction</option>
               <option value="young-adult-hardcover">Young Adult Hardcover</option>
+              <option value="travel">Travel</option>
+              <option value="animals">Animals</option>
+              <option value="relationships">Relationships</option>
+              <option value="espionage">Espionage</option>
             </select>
             <button type="submit" class="custom-button">Search</button>
           </form>
@@ -29,12 +34,12 @@
     </div>
 
     <div class="container-fluid" id="body-container">
-      <div id="wishlist-overlay">
-        <button type="button" class="custom-button" id="close-wishlist" style="float: right;">Close</button><br>
+      <div class="container-fluid" id="wishlist-overlay">
         <h4 style="font-weight: bold; color: rgba(93, 189, 206);">Wishlist:</h4>
         <ul id="booklist"></ul>
       </div>
   
+      <div class="container-fluid d-flex align-items-center justify-content-center mt-4" id="list-name-heading"></div>
       <div class="container d-flex justify-content-center flex-wrap" id="books-container"></div>
 
       <div class="container-fluid custom-overlay" id="details-container"></div>

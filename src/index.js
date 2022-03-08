@@ -3,12 +3,49 @@ const searchSelect = document.querySelector("#list-name-select");
 const detailsContainer = document.querySelector("#details-container");
 const buyLinksContainer = document.querySelector("#buylinks-container");
 const booksContainer = document.querySelector("#books-container");
+const headingContainer = document.querySelector("#list-name-heading");
+const wishlistOverlay = document.querySelector("#wishlist-overlay");
+
+let currentListName;
 let openWishlist = false;
+
+// loading initial wishlist
+fetch("http://localhost:3000/wishlist")
+.then(response => response.json())
+.then(books => books.forEach(book => {
+  const li = document.createElement("li");
+  const title = toTitleCase(book.title);
+  const br = document.createElement("br");
+  const buyBtn = document.createElement("button");
+  buyBtn.textContent = "Buy";
+  buyBtn.className = "custom-button";
+  buyBtn.id = "buyBtn";
+  buyBtn.addEventListener("click", () => showBuyLinks(book));
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "Remove";
+  removeBtn.className = "custom-button";
+  removeBtn.id = "removeBtn";
+  removeBtn.addEventListener("click", () => {
+    deleteBook(book, li);
+    // reload thumbnails so hearts refresh
+    booksContainer.innerHTML = "";
+    loadBooks(currentListName);
+  }); 
+  li.append(title, br, buyBtn, removeBtn);
+  document.querySelector("#booklist").append(li);
+}))
 
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
   booksContainer.innerHTML = "";
-  loadBooks(searchSelect.value);
+  headingContainer.innerHTML = "";
+  const heading = document.createElement("h2");
+  heading.textContent = searchSelect.options[searchSelect.selectedIndex].textContent;
+  headingContainer.append(heading);
+  currentListName = searchSelect.value;
+  console.log(currentListName);
+
+  loadBooks(currentListName);
   searchForm.reset();
 });
 
@@ -19,27 +56,43 @@ function loadBooks(listName) {
 }
 
 function loadThumbnail(book) {
+  let exists2;
   const thumbnailCard = document.createElement("div");
   thumbnailCard.className = "thumbnail";
+  const thumbnailRank = document.createElement("span");
+  thumbnailRank.textContent = `#${book.rank}`;
+  thumbnailRank.id = "rank";
   const heart = document.createElement("span");
-  heart.textContent = "♡";
+  // make a fetch request + find if find true then heart textContent = red
+  fetch("http://localhost:3000/wishlist")
+  .then(response => response.json())
+  .then(books => {
+    const exists = books.find(dbBook => dbBook.title === book.title);
+    exists2 = exists;
+    if (exists) {
+      heart.textContent = "♥";
+      heart.style.color = "red";
+    } else { 
+      heart.textContent = "♡" ;
+      heart.style.color = "black";
+    }
+  })
   heart.className = "heart";
   const br = document.createElement("br");
   const thumbnailImg = document.createElement("img");
   thumbnailImg.src = book.book_image;
   thumbnailImg.className = "thumbnail";
   thumbnailImg.style.cursor = "pointer";
-  thumbnailImg.addEventListener("click", () => showDetails(book, heart));
+  console.log(exists2)
+  thumbnailImg.addEventListener("click", () => showDetails(book, heart, exists2));
   const thumbnailHeader = document.createElement("p");
   thumbnailHeader.textContent = toTitleCase(book.title);
   thumbnailHeader.className = "title";
-  const thumbnailRank = document.createElement("p");
-  thumbnailRank.textContent = `Rank: ${book.rank}`;
-  thumbnailCard.append(heart, br, thumbnailImg, thumbnailHeader, thumbnailRank);
+  thumbnailCard.append(thumbnailRank, heart, br, thumbnailImg, thumbnailHeader);
   booksContainer.append(thumbnailCard);
 }
 
-function showDetails(book, heart) {
+function showDetails(book, heart, exists) {
   detailsContainer.innerHTML = "";
   const detailsInnerContainer = document.createElement("div");
   detailsInnerContainer.classList = "details-inner-container d-flex inline";
@@ -62,9 +115,19 @@ function showDetails(book, heart) {
   const bookDescription = document.createElement("p");
   bookDescription.textContent = book.description;
   const addBtn = document.createElement("button");
-  addBtn.textContent = "Add to wishlist";
   addBtn.className = "custom-button";
-  addBtn.addEventListener("click", () => addToCart(book, heart));
+  console.log(exists)
+  if (exists) {
+    addBtn.textContent = "Already in wishlist"
+    addBtn.style.background = "rgba(93, 189, 206)";
+    addBtn.style.color = "white";
+  }
+  else {
+    addBtn.textContent = "Add to wishlist";
+    addBtn.style.background = "white";
+    addBtn.style.color = "black";
+    addBtn.addEventListener("click", () => addToWishlist(book, heart));
+  }
 
   leftContainer.append(bookImg);
   rightContainer.append(bookTitle, bookAuthor, bookDescription, addBtn);
@@ -73,11 +136,11 @@ function showDetails(book, heart) {
   detailsContainer.style.display = "block";
 }
 
-function addToCart(book, heart) {
+function addToWishlist(book, heart) {
   heart.textContent = "♥";
   heart.style.color = "red";
   openWishlist = true;
-  document.querySelector("#wishlist-overlay").style.display = "block";
+  wishlistOverlay.style.right = "0";
   hideDetails();
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
@@ -91,10 +154,43 @@ function addToCart(book, heart) {
   removeBtn.textContent = "Remove";
   removeBtn.className = "custom-button";
   removeBtn.id = "removeBtn";
-  removeBtn.addEventListener("click", () => deleteItem(li, heart));
 
   li.append(title, br, buyBtn, removeBtn);
   document.querySelector("#booklist").append(li);
+
+  postToDatabase(book, li, heart, removeBtn);
+}
+
+function postToDatabase(book, li, heart, removeBtn) {
+  fetch("http://localhost:3000/wishlist", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(
+      {
+        title: book.title,
+        author: book.author,
+        descipription: book.description,
+        buy_links: book.buy_links,
+        rank: book.rank,
+        book_image: book.book_image
+      }
+    )
+  })
+  .then(response => response.json())
+  .then(book => {
+    removeBtn.addEventListener("click", () => {
+    heart.textContent = "♡";
+    heart.style.color = "black";
+    deleteBook(book, li);
+    });
+    // reload thumbnails so hearts/addbtn refresh
+    booksContainer.innerHTML = "";
+    loadBooks(currentListName);
+    console.log("RELOADED")
+  })
 }
 
 function showBuyLinks(book) {
@@ -113,7 +209,7 @@ function showBuyLinks(book) {
     li.append(buyLink);
     ul.append(li);
   });
-  const exitBtn = document.createElement("button")
+  const exitBtn = document.createElement("button");
   exitBtn.textContent = "x";
   exitBtn.className = "custom-button";
   exitBtn.id = "exit-btn";
@@ -123,10 +219,19 @@ function showBuyLinks(book) {
   buyLinksContainer.style.display = "block";
 }
 
-function deleteItem(item, heart) {
-  item.remove();
-  heart.textContent = "♡";
-  heart.style.color = "black";
+function deleteBook(book, li) {
+  li.remove();
+  fetch(`http://localhost:3000/wishlist/${book.id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    }
+  })
+  // reload thumbnails so hearts/addbtn refresh
+  booksContainer.innerHTML = "";
+  loadBooks(currentListName);
+  console.log("RELOADED")
 }
 
 function hideDetails() {
@@ -143,16 +248,13 @@ function toTitleCase(str) {
   }).join(' ');
 }
 
-// CLOSE WISHLIST - BUTTON INSIDE WISHLIST
-document.querySelector("#close-wishlist").addEventListener("click", () => {
-  toggleWishlist();
-})
-
 // OPEN/CLOSE WISHLIST - CART ICON
 document.querySelector("#wishlist-icon").addEventListener("click", () => toggleWishlist())
 function toggleWishlist() {
   openWishlist = !openWishlist;
   if (openWishlist) {
-    document.querySelector("#wishlist-overlay").style.display = "block";
-  } else { document.querySelector("#wishlist-overlay").style.display = "none" }
+    wishlistOverlay.style.right = "0";
+  } else { 
+    wishlistOverlay.style.right = "-350px";
+  }
 }
