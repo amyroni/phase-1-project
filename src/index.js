@@ -16,6 +16,11 @@ fetch("http://localhost:3000/wishlist")
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
   const br = document.createElement("br");
+  const detailsBtn = document.createElement("button");
+  detailsBtn.className = "custom-button";
+  detailsBtn.id = "detailsBtn";
+  detailsBtn.textContent = "Details";
+  detailsBtn.addEventListener("click", () => showDetails(book, "heart", "true"));
   const buyBtn = document.createElement("button");
   buyBtn.textContent = "Buy";
   buyBtn.className = "custom-button";
@@ -31,7 +36,7 @@ fetch("http://localhost:3000/wishlist")
     booksContainer.innerHTML = "";
     loadBooks(currentListName);
   }); 
-  li.append(title, br, buyBtn, removeBtn);
+  li.append(title, br, detailsBtn, buyBtn, removeBtn);
   document.querySelector("#booklist").append(li);
 }))
 
@@ -100,6 +105,7 @@ function showDetails(book, heart, exists) {
   detailsInnerContainer.classList = "details-inner-container d-flex inline";
   const leftContainer = document.createElement("div");
   leftContainer.id = "leftContainer";
+  leftContainer.classList = "d-flex flex-column align-items-center";
   const rightContainer = document.createElement("div");
   rightContainer.id = "rightContainer";
   const exitBtn = document.createElement("button")
@@ -116,6 +122,42 @@ function showDetails(book, heart, exists) {
   bookAuthor.textContent = `Author: ${book.author}`;
   const bookDescription = document.createElement("p");
   bookDescription.textContent = book.description;
+  // show existing comments
+  const commentsHeading = document.createElement("h4");
+  commentsHeading.textContent = "Comments:";
+  commentsHeading.style.fontWeight = "bold";
+  const commentList = document.createElement("ul");
+  fetch("http://localhost:3000/comments")
+  .then(response => response.json())
+  .then(comments => {
+    const bookComments = comments.filter(comment => comment.book_title === book.title);
+    bookComments.forEach(bookComment => {
+      const li = document.createElement("li");
+      li.textContent = bookComment.comment;
+      commentList.append(li);
+    })
+  })
+  //add comment form
+  const commentFormDiv = document.createElement("div");
+  commentFormDiv.classList = "d-flex flex-row align-items-center justify-content-center mt-3 mb-3";
+  const commentForm = document.createElement("form");
+  commentForm.id = "comment-form";
+  const commentInput = document.createElement("textarea");
+  commentInput.placeholder = "Leave a comment!";
+  commentInput.style.padding = "5px";
+  commentInput.style.marginRight = "5px";
+  const commentBtn = document.createElement("button");
+  commentBtn.type = "submit";
+  commentBtn.className = "custom-button";
+  commentBtn.textContent = "Submit"
+  commentForm.append(commentInput, commentBtn);
+  commentForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    addComment(book, commentList, commentForm.elements[0].value);
+    commentForm.reset();
+  })
+  commentFormDiv.append(commentForm);
+
   const addBtn = document.createElement("button");
   addBtn.className = "custom-button";
   console.log(exists)
@@ -131,11 +173,32 @@ function showDetails(book, heart, exists) {
     addBtn.addEventListener("click", () => addToWishlist(book, heart));
   }
 
-  leftContainer.append(bookImg);
-  rightContainer.append(bookTitle, bookAuthor, bookDescription, addBtn);
+  leftContainer.append(bookImg, addBtn);
+  rightContainer.append(bookTitle, bookAuthor, bookDescription, commentsHeading, commentList, commentFormDiv);
   detailsInnerContainer.append(exitBtn, leftContainer, rightContainer);
   detailsContainer.append(detailsInnerContainer);
   detailsContainer.style.display = "block";
+}
+
+function addComment(book, commentList, comment) {
+  fetch("http://localhost:3000/comments", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({
+      book_title: book.title,
+      comment: comment
+    })
+  })
+  .then(response => response.json())
+  .then(newComment => {
+    console.log(newComment)
+    const li = document.createElement("li");
+    li.textContent = newComment.comment;
+    commentList.append(li);
+  })
 }
 
 function addToWishlist(book, heart) {
@@ -148,6 +211,11 @@ function addToWishlist(book, heart) {
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
   const br = document.createElement("br");
+  const detailsBtn = document.createElement("button");
+  detailsBtn.className = "custom-button";
+  detailsBtn.id = "detailsBtn";
+  detailsBtn.textContent = "Details";
+  detailsBtn.addEventListener("click", () => showDetails(book, heart, "true"));
   const buyBtn = document.createElement("button");
   buyBtn.textContent = "Buy";
   buyBtn.className = "custom-button";
@@ -158,7 +226,7 @@ function addToWishlist(book, heart) {
   removeBtn.className = "custom-button";
   removeBtn.id = "removeBtn";
 
-  li.append(title, br, buyBtn, removeBtn);
+  li.append(title, br, detailsBtn, buyBtn, removeBtn);
   document.querySelector("#booklist").append(li);
 
   postToDatabase(book, li, heart, removeBtn);
@@ -175,7 +243,7 @@ function postToDatabase(book, li, heart, removeBtn) {
       {
         title: book.title,
         author: book.author,
-        descipription: book.description,
+        description: book.description,
         buy_links: book.buy_links,
         rank: book.rank,
         book_image: book.book_image

@@ -1,106 +1,147 @@
 {
   "wishlist": [
     {
-      "title": "ANATOMY",
-      "author": "Dana Schwartz",
-      "descipription": "Hazel and Jack work together to solve a mystery in 19th-century Edinburgh.",
+      "title": "WHERE THE CRAWDADS SING",
+      "author": "Delia Owens",
+      "description": "In a quiet town on the North Carolina coast in 1969, a young woman who survived alone in the marsh becomes a murder suspect.",
       "buy_links": [
         {
           "name": "Amazon",
-          "url": "https://www.amazon.com/dp/1250774152?tag=NYTBSREV-20"
+          "url": "https://www.amazon.com/Where-Crawdads-Sing-Delia-Owens/dp/0735219095?tag=NYTBSREV-20"
         },
         {
           "name": "Apple Books",
-          "url": "https://goto.applebooks.apple/9781250865069?at=10lIEQ"
+          "url": "https://goto.applebooks.apple/9780735219106?at=10lIEQ"
         },
         {
           "name": "Barnes and Noble",
-          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781250865069"
+          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780735219106"
         },
         {
           "name": "Books-A-Million",
-          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FANATOMY%252FDana%252BSchwartz%252F9781250865069&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DANATOMY%252BDana%252BSchwartz"
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FWHERE%252BTHE%252BCRAWDADS%252BSING%252FDelia%252BOwens%252F9780735219106&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DWHERE%252BTHE%252BCRAWDADS%252BSING%252BDelia%252BOwens"
         },
         {
           "name": "Bookshop",
-          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9781250865069&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DANATOMY"
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9780735219106&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DWHERE%2BTHE%2BCRAWDADS%2BSING"
         },
         {
           "name": "IndieBound",
-          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9781250865069%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DANATOMY%2BDana%2BSchwartz%26aff%3DNYT"
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9780735219106%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DWHERE%2BTHE%2BCRAWDADS%2BSING%2BDelia%2BOwens%26aff%3DNYT"
         }
       ],
-      "rank": 3,
-      "book_image": "https://storage.googleapis.com/du-prd/books/images/9781250774156.jpg",
+      "rank": 5,
+      "book_image": "https://storage.googleapis.com/du-prd/books/images/9780735219090.jpg",
       "id": 1
     },
     {
-      "title": "AIN'T BURNED ALL THE BRIGHT",
-      "author": "Jason Reynolds.",
-      "descipription": "An emotional look into the life of a Black family living through 2020.",
+      "title": "THE SONG OF ACHILLES",
+      "author": "Madeline Miller",
+      "description": "A reimagining of Homer’s “Iliad” that is narrated by Achilles' companion Patroclus.",
       "buy_links": [
         {
           "name": "Amazon",
-          "url": "https://www.amazon.com/dp/1534439463?tag=NYTBSREV-20"
+          "url": "http://www.amazon.com/The-Song-Achilles-A-Novel/dp/0062060627?tag=NYTBSREV-20"
         },
         {
           "name": "Apple Books",
-          "url": "https://goto.applebooks.apple/9781534439467?at=10lIEQ"
+          "url": "https://goto.applebooks.apple/9780062060624?at=10lIEQ"
         },
         {
           "name": "Barnes and Noble",
-          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781534439467"
+          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780062060624"
         },
         {
           "name": "Books-A-Million",
-          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FAIN%252527T%252BBURNED%252BALL%252BTHE%252BBRIGHT%252FJason%252BReynolds.%252F9781534439467&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DAIN%252527T%252BBURNED%252BALL%252BTHE%252BBRIGHT%252BJason%252BReynolds."
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FTHE%252BSONG%252BOF%252BACHILLES%252FMadeline%252BMiller%252F9780062060624&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DTHE%252BSONG%252BOF%252BACHILLES%252BMadeline%252BMiller"
         },
         {
           "name": "Bookshop",
-          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9781534439467&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DAIN%2527T%2BBURNED%2BALL%2BTHE%2BBRIGHT"
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9780062060624&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DTHE%2BSONG%2BOF%2BACHILLES"
         },
         {
           "name": "IndieBound",
-          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9781534439467%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DAIN%2527T%2BBURNED%2BALL%2BTHE%2BBRIGHT%2BJason%2BReynolds.%26aff%3DNYT"
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9780062060624%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DTHE%2BSONG%2BOF%2BACHILLES%2BMadeline%2BMiller%26aff%3DNYT"
         }
       ],
-      "rank": 4,
-      "book_image": "https://storage.googleapis.com/du-prd/books/images/9781534439467.jpg",
+      "rank": 8,
+      "book_image": "https://storage.googleapis.com/du-prd/books/images/9780062060624.jpg",
       "id": 2
     },
     {
-      "title": "ONE OF US IS LYING",
-      "author": "Karen M. McManus",
-      "descipription": "For five students, a detour into detention ends in murder.",
+      "title": "SPEAKING AMERICAN",
+      "author": "Josh Katz",
+      "description": "The creator of the New York Times dialect quiz provides a guide to how words are pronounced in different parts of the country.",
       "buy_links": [
         {
           "name": "Amazon",
-          "url": "https://www.amazon.com/One-Us-Lying-Karen-McManus/dp/1524714682?tag=NYTBSREV-20"
+          "url": "https://www.amazon.com/Speaking-American-Youse-Visual-Guide/dp/0544703391?tag=NYTBSREV-20"
         },
         {
           "name": "Apple Books",
-          "url": "https://goto.applebooks.apple/9781524714680?at=10lIEQ"
+          "url": "https://goto.applebooks.apple/9780544703391?at=10lIEQ"
         },
         {
           "name": "Barnes and Noble",
-          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9781524714680"
+          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780544703391"
         },
         {
           "name": "Books-A-Million",
-          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FONE%252BOF%252BUS%252BIS%252BLYING%252FKaren%252BM.%252BMcManus%252F9781524714680&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DONE%252BOF%252BUS%252BIS%252BLYING%252BKaren%252BM.%252BMcManus"
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FSPEAKING%252BAMERICAN%252FJosh%252BKatz%252F9780544703391&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DSPEAKING%252BAMERICAN%252BJosh%252BKatz"
         },
         {
           "name": "Bookshop",
-          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9781524714680&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DONE%2BOF%2BUS%2BIS%2BLYING"
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9780544703391&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DSPEAKING%2BAMERICAN"
         },
         {
           "name": "IndieBound",
-          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9781524714680%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DONE%2BOF%2BUS%2BIS%2BLYING%2BKaren%2BM.%2BMcManus%26aff%3DNYT"
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9780544703391%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DSPEAKING%2BAMERICAN%2BJosh%2BKatz%26aff%3DNYT"
+        }
+      ],
+      "rank": 7,
+      "book_image": "https://storage.googleapis.com/du-prd/books/images/9780544703391.jpg",
+      "id": 3
+    },
+    {
+      "title": "THE UNDOING PROJECT",
+      "author": "Michael Lewis",
+      "description": "How the psychologists Daniel Kahneman and Amos Tversky upended assumptions about the decision-making process and invented the field of behavioral economics. Their close friendship and porous collaboration style became one of the greatest partnerships in the history of science.",
+      "buy_links": [
+        {
+          "name": "Amazon",
+          "url": "https://www.amazon.com/Undoing-Project-Friendship-Changed-Minds-ebook/dp/B01GI6S7EK?tag=NYTBSREV-20"
+        },
+        {
+          "name": "Apple Books",
+          "url": "https://goto.applebooks.apple/9780393254594?at=10lIEQ"
+        },
+        {
+          "name": "Barnes and Noble",
+          "url": "https://www.anrdoezrs.net/click-7990613-11819508?url=https%3A%2F%2Fwww.barnesandnoble.com%2Fw%2F%3Fean%3D9780393254594"
+        },
+        {
+          "name": "Books-A-Million",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fp%252FTHE%252BUNDOING%252BPROJECT%252FMichael%252BLewis%252F9780393254594&url2=https%3A%2F%2Fwww.anrdoezrs.net%2Fclick-7990613-35140%3Furl%3Dhttps%253A%252F%252Fwww.booksamillion.com%252Fsearch%253Fquery%253DTHE%252BUNDOING%252BPROJECT%252BMichael%252BLewis"
+        },
+        {
+          "name": "Bookshop",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fbookshop.org%2Fa%2F3546%2F9780393254594&url2=https%3A%2F%2Fbookshop.org%2Fbooks%3Faffiliate%3D3546%26keywords%3DTHE%2BUNDOING%2BPROJECT"
+        },
+        {
+          "name": "IndieBound",
+          "url": "https://du-gae-books-dot-nyt-du-prd.appspot.com/redirect?url1=https%3A%2F%2Fwww.indiebound.org%2Fbook%2F9780393254594%3Faff%3DNYT&url2=https%3A%2F%2Fwww.indiebound.org%2Fsearch%2Fbook%3Fkeys%3DTHE%2BUNDOING%2BPROJECT%2BMichael%2BLewis%26aff%3DNYT"
         }
       ],
       "rank": 1,
-      "book_image": "https://storage.googleapis.com/du-prd/books/images/9781524714680.jpg",
-      "id": 3
+      "book_image": "https://storage.googleapis.com/du-prd/books/images/9780393254600.jpg",
+      "id": 4
+    }
+  ],
+  "comments": [
+    {
+      "book_title": "ATLAS OBSCURA",
+      "comment": "What a great book!",
+      "id": 1
     }
   ]
 }

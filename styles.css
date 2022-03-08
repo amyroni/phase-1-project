@@ -130,7 +130,7 @@ button.custom-button#exit-btn {
   z-index: 2; 
 }
 
-button.custom-button#buyBtn, button.custom-button#removeBtn{
+button.custom-button#buyBtn, button.custom-button#removeBtn, button.custom-button#detailsBtn {
   padding: 1px 5px;
   margin: 0 5px;
 }
@@ -178,4 +178,11 @@ span#rank {
   background-color: white;
   border-radius: 15px;
   padding: 2px 7px;
+}
+
+form#comment-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
