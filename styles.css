@@ -1,34 +1,37 @@
 body {
   text-align: center;
- /* font-family:'Courier New', Courier, monospace;
-  */
- /* font-family: Georgia, 'Times New Roman', Times, serif;
-  */
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
 a {
   color: black;
 }
+
 h1.main-hero {
   font-size: 60px;
 }
+
 p.title {
   line-height: 100%;
   font-weight: bold;
 }
+
 img.thumbnail {
   width: 100px;
   margin-bottom: 10px;
 }
+
 img.big-image {
   width: 200px;
   margin-bottom: 20px;
 }
+
 div#header {
   background-color: rgba(93, 189, 206);
   height: 350px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
 div.thumbnail {
   background-size: cover;
   background-position: center;
@@ -43,6 +46,7 @@ div.thumbnail {
   height: 300px;
   cursor: pointer;
 }
+
 div#wishlist-overlay {
   padding: 20px;  
   /* float: right; */
@@ -60,24 +64,20 @@ div#wishlist-overlay {
   text-align: left;
   overflow: hidden;
 }
+
 div.custom-overlay {
   position: fixed;
- /* Sit on top of the page content */
   display: none;
- /* Hidden by default */
   width: 100%;
- /* Full width (cover the whole page) */
   height: 100%;
- /* Full height (cover the whole page) */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
- /* Black background with opacity */
   z-index: 2;
- /* Specify a stack order in case you're using a different order for other elements */
 }
+
 div.details-inner-container {
   position: absolute;
   margin: 0 auto;
@@ -87,17 +87,19 @@ div.details-inner-container {
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
   padding: 50px;
-  width: 40%;
+  width: 50%;
+  height: 50%;
 }
 
 div#leftContainer {
   float: left;
-  width: 40vw;
+  padding: 10px;
+  width: 50%;
 }
 div#rightContainer {
   float: right;
-  padding: 15px 30px;
-  width: 60vw;
+  padding: 10px;
+  width: 50%;
 }
 
 ul#comment-list {
@@ -123,6 +125,7 @@ button.custom-button:hover {
   background: rgba(93, 189, 206);
   color: #fff;
 }
+
 button.custom-button#exit-btn {
   float: right;
   position: absolute;
@@ -133,13 +136,10 @@ button.custom-button#exit-btn {
   padding-top: 0.3px;
   padding-bottom: 1.2px;
 }
+
 button.custom-button#buyBtn, button.custom-button#removeBtn, button.custom-button#detailsBtn {
   padding: 1px 5px;
   margin: 0 5px;
-}
-button.custom-button#addToWish {
-  position: absolute;
-  bottom: 1.5vh;
 }
 
 ul {
@@ -169,7 +169,7 @@ li {
   padding: 5px;
 }
 
-span#rank {
+span.rank {
   float: left;
   background-color: white;
   border-radius: 15px;
@@ -180,6 +180,7 @@ form#comment-form {
   flex-direction: row;
   justify-content: center;
   position: absolute;
+  height: 30px;
   bottom: 1.5vh;
 }
 
