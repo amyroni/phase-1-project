@@ -1,4 +1,5 @@
 // SET GLOBAL VARIABLES
+const countBubble = document.querySelector("#count-bubble");
 const searchForm = document.querySelector("#list-name-form");
 const searchSelect = document.querySelector("#list-name-select");
 const detailsContainer = document.querySelector("#details-container");
@@ -23,9 +24,10 @@ let booksInWish = []; // wishlist tracker: keep track of books in wishlist by ti
 // LOAD INITIAL WISHLIST + COUNT BUBBLE
 fetch("http://localhost:3000/wishlist")
 .then(response => response.json())
-.then(books => books.forEach(book => {
-  addToInitialWishlist(book);
-}))
+.then(books => {
+  books.forEach(book => addToInitialWishlist(book));
+  countBubble.textContent = books.length;
+})
 
 // OPEN/CLOSE WISHLIST - CART ICON
 document.querySelector("#wishlist-icon").addEventListener("click", () => toggleWishlist())
@@ -124,17 +126,15 @@ function showDetails(book) {
     document.querySelector("#addToWish").remove();
   }
   const addBtn = document.createElement("button");
-  addBtn.classList = "custom-button add-to-wish";
+  addBtn.classList = "custom-button";
   addBtn.id="addToWish";
   if (booksInWish.find(bookItem => bookItem === book.title)) {
-    addBtn.textContent = "Already in wishlist"
-    addBtn.style.background = "rgba(93, 189, 206)";
-    addBtn.style.color = "white";
+    addBtn.textContent = "Already in wishlist";
+    addBtn.classList = "custom-button already-in-wishlist";
   }
   else {
     addBtn.textContent = "Add to wishlist";
-    addBtn.style.background = "white";
-    addBtn.style.color = "black";
+    addBtn.classList = "custom-button add-to-wishlist";
     addBtn.addEventListener("click", () => addToWishlist(book));
   }
   leftContainer.append(addBtn);
@@ -204,8 +204,8 @@ function addComment(book, commentList, comment) {
 }
 
 function addToWishlist(book) {
-  // add book to wishlist tracker
-  booksInWish.push(book.title);
+  booksInWish.push(book.title); // add book to wishlist tracker
+  countBubble.textContent = parseInt(countBubble.textContent) + 1; // update count bubble
   console.log(booksInWish);
   const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
   if (heart) {
@@ -288,11 +288,9 @@ function showBuyLinks(book) {
 }
 
 function deleteBook(book, li) {
-  // remove book from wishlist tracker
   const index = booksInWish.indexOf(book.title);
-  console.log(index)
-  booksInWish.splice(index, 1);
-  console.log(booksInWish);
+  booksInWish.splice(index, 1); // remove book from wishlist tracker
+  countBubble.textContent = parseInt(countBubble.textContent) - 1; // update count bubble
   li.remove();
   fetch(`http://localhost:3000/wishlist/${book.id}`, {
     method: "DELETE",

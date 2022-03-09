@@ -30,13 +30,16 @@
           </form>
         </div>
         <p>Select a NYT list name to search for current bestsellers!</p>
-        <span id="wishlist-icon"><img src="./assets/wishlist-icon.png" id="wishlist-img"></span>
+        <div id="wishlist-icon-container">
+          <p id="count-bubble">0</p>
+          <span id="wishlist-icon"><img src="./assets/wishlist-icon.png" id="wishlist-img"></span>
+        </div>
       </div>
     </div>
 
     <div class="container-fluid" id="body-container">
       <div class="container-fluid" id="wishlist-overlay">
-        <h4 style="font-weight: bold; color: rgba(93, 189, 206);">Wishlist:</h4>
+        <h4 id="wishlist-header">Wishlist:</h4>
         <ul id="booklist"></ul>
       </div>
   
