@@ -116,6 +116,7 @@ function showDetails(book, heart, exists) {
   commentsHeading.textContent = "Comments:";
   commentsHeading.style.fontWeight = "bold";
   const commentList = document.createElement("ul");
+  commentList.id = "comment-list"
   fetch("http://localhost:3000/comments")
   .then(response => response.json())
   .then(comments => {
@@ -127,8 +128,8 @@ function showDetails(book, heart, exists) {
     })
   })
   //add comment form
-  const commentFormDiv = document.createElement("div");
-  commentFormDiv.classList = "d-flex flex-row align-items-center justify-content-center mt-3 mb-3";
+  // const commentDiv = document.createElement("div");
+  // commentDiv.classList = "d-flex flex-row align-items-center justify-content-center mt-3 mb-3";
   const commentForm = document.createElement("form");
   commentForm.id = "comment-form";
   const commentInput = document.createElement("textarea");
@@ -137,7 +138,7 @@ function showDetails(book, heart, exists) {
   commentInput.style.marginRight = "5px";
   const commentBtn = document.createElement("button");
   commentBtn.type = "submit";
-  commentBtn.className = "custom-button";
+  commentBtn.classList = "custom-button";
   commentBtn.textContent = "Submit"
   commentForm.append(commentInput, commentBtn);
   commentForm.addEventListener("submit", (event) => {
@@ -145,7 +146,7 @@ function showDetails(book, heart, exists) {
     addComment(book, commentList, commentForm.elements[0].value);
     commentForm.reset();
   })
-  commentFormDiv.append(commentForm);
+  // commentFormDiv.append(commentForm);
 
   const addBtn = document.createElement("button");
   addBtn.className = "custom-button";
@@ -160,9 +161,8 @@ function showDetails(book, heart, exists) {
     addBtn.style.color = "black";
     addBtn.addEventListener("click", () => addToWishlist(book, heart));
   }
-
   leftContainer.append(bookImg, addBtn);
-  rightContainer.append(bookTitle, bookAuthor, bookDescription, commentsHeading, commentList, commentFormDiv);
+  rightContainer.append(bookTitle, bookAuthor, bookDescription, commentsHeading, commentList, commentForm);
   detailsInnerContainer.append(exitBtn, leftContainer, rightContainer);
   detailsContainer.append(detailsInnerContainer);
   detailsContainer.style.display = "block";
@@ -193,7 +193,7 @@ function addToWishlist(book, heart) {
   heart.classList = "full-heart"
   openWishlist = true;
   //overlay slide
-  // wishlistOverlay.style.right = "300px";
+  wishlistOverlay.style.right = "350px";
   hideDetails();
 
   const li = document.createElement("li");

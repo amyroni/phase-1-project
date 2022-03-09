@@ -87,16 +87,24 @@ div.details-inner-container {
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
   padding: 50px;
-  width: 45%;
+  width: 40%;
 }
+
 div#leftContainer {
   float: left;
-  width: 30vh;
+  width: 40vw;
 }
 div#rightContainer {
   float: right;
   padding: 15px 30px;
+  width: 60vw;
 }
+
+ul#comment-list {
+  max-height: 12.5vh;
+  overflow-y: scroll;
+}
+
 div#list-name-heading {
   padding: 5px;
 }
@@ -110,6 +118,7 @@ button.custom-button {
   color: #000;
   font-weight: normal;
 }
+
 button.custom-button:hover {
   background: rgba(93, 189, 206);
   color: #fff;
@@ -134,7 +143,8 @@ ul {
   padding: 0;
 }
 span#wishlist-icon {
-  float: right;
+  position: absolute;
+  right: 8vw;
   margin: 0 0 -20px 0;
   font-weight: bold;
   cursor: pointer;
@@ -163,8 +173,9 @@ span#rank {
 form#comment-form {
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: center;
+  position: absolute;
+  bottom: 1.5vh;
 }
 
 .open-heart {
