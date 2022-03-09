@@ -137,6 +137,11 @@ button.custom-button#buyBtn, button.custom-button#removeBtn, button.custom-butto
   padding: 1px 5px;
   margin: 0 5px;
 }
+button.custom-button#addToWish {
+  position: absolute;
+  bottom: 1.5vh;
+}
+
 ul {
   list-style-type: none;
   margin: 0;

@@ -150,6 +150,7 @@ function showDetails(book, heart, exists) {
 
   const addBtn = document.createElement("button");
   addBtn.className = "custom-button";
+  addBtn.id = "addToWish"
   if (exists) {
     addBtn.textContent = "Already in wishlist"
     addBtn.style.background = "rgba(93, 189, 206)";
