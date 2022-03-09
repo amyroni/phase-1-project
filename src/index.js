@@ -57,6 +57,7 @@ searchForm.addEventListener("submit", (event) => {
 function addToInitialWishlist(book) {
   // populate wishlist tracker;
   booksInWish.push(book.title);
+  // add book to wishlist display
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
   const br = document.createElement("br");
@@ -64,7 +65,7 @@ function addToInitialWishlist(book) {
   detailsBtn.className = "custom-button";
   detailsBtn.id = "detailsBtn";
   detailsBtn.textContent = "Details";
-  detailsBtn.addEventListener("click", () => showDetails(book, "heart", "true"));
+  detailsBtn.addEventListener("click", () => showDetails(book));
   const buyBtn = document.createElement("button");
   buyBtn.textContent = "Buy";
   buyBtn.className = "custom-button";
@@ -215,7 +216,7 @@ function addToWishlist(book) {
   openWishlist = true;
   wishlistOverlay.style.width = "350px";
   detailsContainer.style.display = "none";
-  // add book to wishlist
+  // add book to wishlist display
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
   const br = document.createElement("br");
