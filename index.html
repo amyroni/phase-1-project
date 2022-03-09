@@ -41,11 +41,35 @@
       </div>
   
       <div class="container-fluid d-flex align-items-center justify-content-center mt-4" id="list-name-heading"></div>
-      <div class="container d-flex justify-content-center flex-wrap" id="books-container"></div>
+      <div class="container d-flex justify-content-center flex-wrap" id="thumbnails-container"></div>
 
-      <div class="container-fluid custom-overlay" id="details-container"></div>
+      <div class="container-fluid custom-overlay" id="details-container">
+        <div class="details-inner-container d-flex inline" id="details-inner-container">
+          <button class="custom-button exit-btn">x</button>
+          <div class="d-flex flex-column align-items-center" id="leftContainer">
+            <img class="big-image" id="detail-img" src="https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=">
+          </div>
+          <div id="rightContainer">
+            <h2 id="detail-title"></h2>
+            <h5 id="detail-author"></h5>
+            <p id="detail-description"></p>
+            <div id="comments-container">
+              <h6 style="font-weight: bold;">Comments:</h6>
+              <ul id="comment-list"></ul>
+            </div>
+            <div class="d-flex flex-row align-items-center justify-content-center mt-3 mb-3" id="comment-form-container">
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div class="container-fluid custom-overlay" id="buylinks-container"></div>
+      <div class="container-fluid custom-overlay" id="buylinks-container">
+        <div class="details-inner-container" id="buylinks-inner-container">
+          <button class="custom-button exit-btn">x</button>
+          <h3>Links to Purchase Book</h3>
+          <ul id="buylinks-list"></ul>
+        </div>
+      </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

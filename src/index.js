@@ -1,19 +1,58 @@
+// SET GLOBAL VARIABLES
 const searchForm = document.querySelector("#list-name-form");
 const searchSelect = document.querySelector("#list-name-select");
 const detailsContainer = document.querySelector("#details-container");
 const buyLinksContainer = document.querySelector("#buylinks-container");
-const booksContainer = document.querySelector("#books-container");
+const buyInnerContainer = document.querySelector("#buylinks-inner-container");
+const thumbnailsContainer = document.querySelector("#thumbnails-container");
 const headingContainer = document.querySelector("#list-name-heading");
 const wishlistOverlay = document.querySelector("#wishlist-overlay");
+const leftContainer = document.querySelector("#leftContainer");
+const rightContainer = document.querySelector("#rightContainer");
+const commentFormDiv = document.querySelector("#comment-form-container");
+const exitBtn = document.querySelectorAll(".exit-btn");
+exitBtn.forEach(btn => btn.addEventListener("click", () => {
+  detailsContainer.style.display = "none";
+  buyLinksContainer.style.display = "none";
+}));
 
-let currentListName;
-let openWishlist = false;
+let currentListName; // track current selected list name
+let openWishlist = false; // initialize wishlist display
 let booksInWish = []; // wishlist tracker: keep track of books in wishlist by title
 
-// loading initial wishlist
+// LOAD INITIAL WISHLIST + COUNT BUBBLE
 fetch("http://localhost:3000/wishlist")
 .then(response => response.json())
 .then(books => books.forEach(book => {
+  addToInitialWishlist(book);
+}))
+
+// OPEN/CLOSE WISHLIST - CART ICON
+document.querySelector("#wishlist-icon").addEventListener("click", () => toggleWishlist())
+function toggleWishlist() {
+  openWishlist = !openWishlist;
+  if (openWishlist) {
+    wishlistOverlay.style.width = "350px";
+  } else { 
+    wishlistOverlay.style.width = "0px";
+  }
+}
+
+// ADD LIST-NAME SEARCH FUNCTIONALITY
+searchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  thumbnailsContainer.innerHTML = "";
+  headingContainer.innerHTML = "";
+  const heading = document.createElement("h2");
+  heading.textContent = searchSelect.options[searchSelect.selectedIndex].textContent;
+  headingContainer.append(heading);
+  currentListName = searchSelect.value;
+  loadBooks(currentListName);
+  searchForm.reset();
+});
+
+// FUNCTIONS
+function addToInitialWishlist(book) {
   // populate wishlist tracker;
   booksInWish.push(book.title);
   const li = document.createElement("li");
@@ -34,26 +73,16 @@ fetch("http://localhost:3000/wishlist")
   removeBtn.className = "custom-button";
   removeBtn.id = "removeBtn";
   removeBtn.addEventListener("click", () => {
-    const heart = document.querySelector(`#heart-${book.rank}`);
-    heart.textContent = "♡";
-    heart.classList = "open-heart";
+    const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
+    if (heart) {
+      heart.textContent = "♡";
+      heart.classList = "open-heart";
+    }
     deleteBook(book, li);
   }); 
   li.append(title, br, detailsBtn, buyBtn, removeBtn);
   document.querySelector("#booklist").append(li);
-}))
-
-searchForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  booksContainer.innerHTML = "";
-  headingContainer.innerHTML = "";
-  const heading = document.createElement("h2");
-  heading.textContent = searchSelect.options[searchSelect.selectedIndex].textContent;
-  headingContainer.append(heading);
-  currentListName = searchSelect.value;
-  loadBooks(currentListName);
-  searchForm.reset();
-});
+}
 
 function loadBooks(listName) {
   fetch(`https://api.nytimes.com/svc/books/v3/lists/current/${listName}.json?api-key=aNs4DvNstJ3L1WqPFzC9YFpp07TYJ95D`)
@@ -78,75 +107,25 @@ function loadThumbnail(book) {
     heart.textContent = "♡" ;
     heart.classList = "open-heart";
   }
-  heart.id = `heart-${book.rank}`;
+  heart.id = `heart-${book.primary_isbn10}`;
   const br = document.createElement("br");
   thumbnailCard.addEventListener("click", () => showDetails(book));
   thumbnailCard.append(thumbnailRank, heart, br);
-  booksContainer.append(thumbnailCard);
+  thumbnailsContainer.append(thumbnailCard);
 }
 
 function showDetails(book) {
-  detailsContainer.innerHTML = "";
-  const detailsInnerContainer = document.createElement("div");
-  detailsInnerContainer.classList = "details-inner-container d-flex inline";
-  const leftContainer = document.createElement("div");
-  leftContainer.id = "leftContainer";
-  leftContainer.classList = "d-flex flex-column align-items-center";
-  const rightContainer = document.createElement("div");
-  rightContainer.id = "rightContainer";
-  const exitBtn = document.createElement("button")
-  exitBtn.textContent = "x";
-  exitBtn.className = "custom-button";
-  exitBtn.id = "exit-btn";
-  exitBtn.addEventListener("click", () => hideDetails());
-  const bookImg = document.createElement("img");
-  bookImg.src = book.book_image;
-  bookImg.className = "big-image";
-  const bookTitle = document.createElement("h2");
-  bookTitle.textContent = toTitleCase(book.title);
-  const bookAuthor = document.createElement("h5");
-  bookAuthor.textContent = `Author: ${book.author}`;
-  const bookDescription = document.createElement("p");
-  bookDescription.textContent = book.description;
-  // show existing comments
-  const commentsHeading = document.createElement("h6");
-  commentsHeading.textContent = "Comments:";
-  commentsHeading.style.fontWeight = "bold";
-  const commentList = document.createElement("ul");
-  commentList.id = "comment-list"
-  fetch("http://localhost:3000/comments")
-  .then(response => response.json())
-  .then(comments => {
-    const bookComments = comments.filter(comment => comment.book_title === book.title);
-    bookComments.forEach(bookComment => {
-      const li = document.createElement("li");
-      li.textContent = bookComment.comment;
-      commentList.append(li);
-    })
-  })
-  // add comment form
-  const commentFormDiv = document.createElement("div");
-  commentFormDiv.classList = "d-flex flex-row align-items-center justify-content-center mt-3 mb-3";
-  const commentForm = document.createElement("form");
-  commentForm.id = "comment-form";
-  const commentInput = document.createElement("textarea");
-  commentInput.placeholder = "Leave a comment!";
-  commentInput.style.padding = "5px";
-  commentInput.style.marginRight = "5px";
-  const commentBtn = document.createElement("button");
-  commentBtn.type = "submit";
-  commentBtn.classList = "custom-button";
-  commentBtn.textContent = "Submit"
-  commentForm.append(commentInput, commentBtn);
-  commentForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    addComment(book, commentList, commentForm.elements[0].value);
-    commentForm.reset();
-  })
-  commentFormDiv.append(commentForm);
-  // make wishlist add button + functionality depending on if book is already in wishlist
+  // handle left container
+  document.querySelector("#detail-img").src = book.book_image;
+  document.querySelector("#detail-title").textContent = toTitleCase(book.title);
+  document.querySelector("#detail-author").textContent = `Author: ${book.author}`;
+  document.querySelector("#detail-description").textContent = book.description;
+  if (document.querySelector("#addToWish")) {
+    document.querySelector("#addToWish").remove();
+  }
   const addBtn = document.createElement("button");
   addBtn.classList = "custom-button add-to-wish";
+  addBtn.id="addToWish";
   if (booksInWish.find(bookItem => bookItem === book.title)) {
     addBtn.textContent = "Already in wishlist"
     addBtn.style.background = "rgba(93, 189, 206)";
@@ -158,10 +137,49 @@ function showDetails(book) {
     addBtn.style.color = "black";
     addBtn.addEventListener("click", () => addToWishlist(book));
   }
-  leftContainer.append(bookImg, addBtn);
-  rightContainer.append(bookTitle, bookAuthor, bookDescription, commentsHeading, commentList, commentFormDiv);
-  detailsInnerContainer.append(exitBtn, leftContainer, rightContainer);
-  detailsContainer.append(detailsInnerContainer);
+  leftContainer.append(addBtn);
+  // handle right container
+  // show existing comments
+  const commentList = document.querySelector("#comment-list");
+  commentList.innerHTML = "";
+  fetch("http://localhost:3000/comments")
+  .then(response => response.json())
+  .then(comments => {
+    const bookComments = comments.filter(comment => comment.book_title === book.title);
+    if (bookComments.length > 0) {
+      bookComments.forEach(bookComment => {
+        const li = document.createElement("li");
+        li.textContent = bookComment.comment;
+        commentList.append(li);
+      })
+    } else { 
+      const p = document.createElement("p");
+      p.textContent = "No comments yet";
+      commentList.append(p);
+    }
+  })
+  // add comment form
+  commentFormDiv.innerHTML = "";
+  const commentForm = document.createElement("form");
+  commentForm.id = "comment-form";
+  const commentInput = document.createElement("textarea");
+  commentInput.placeholder = "Leave a comment!";
+  commentInput.id = "comment-textarea";
+  const commentBtn = document.createElement("button");
+  commentBtn.type = "submit";
+  commentBtn.classList = "custom-button";
+  commentBtn.textContent = "Submit"
+  commentForm.append(commentInput, commentBtn);
+  commentForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (commentList.querySelector("p")) {
+      commentList.querySelector("p").remove();
+    }
+    addComment(book, commentList, commentForm.elements[0].value);
+    commentForm.reset();
+  })
+  commentFormDiv.append(commentForm);
+  // display overlay
   detailsContainer.style.display = "block";
 }
 
@@ -189,12 +207,15 @@ function addToWishlist(book) {
   // add book to wishlist tracker
   booksInWish.push(book.title);
   console.log(booksInWish);
-  const heart = document.querySelector(`#heart-${book.rank}`);
-  heart.textContent = "♥";
-  heart.classList = "full-heart";
+  const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
+  if (heart) {
+    heart.textContent = "♥";
+    heart.classList = "full-heart";
+  }
   openWishlist = true;
   wishlistOverlay.style.width = "350px";
-  hideDetails();
+  detailsContainer.style.display = "none";
+  // add book to wishlist
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
   const br = document.createElement("br");
@@ -213,10 +234,9 @@ function addToWishlist(book) {
   removeBtn.textContent = "Remove";
   removeBtn.className = "custom-button";
   removeBtn.id = "removeBtn";
-
   li.append(title, br, detailsBtn, buyBtn, removeBtn);
   document.querySelector("#booklist").append(li);
-
+  // update database
   postToDatabase(book, li, removeBtn);
 }
 
@@ -234,28 +254,27 @@ function postToDatabase(book, li, removeBtn) {
         description: book.description,
         buy_links: book.buy_links,
         rank: book.rank,
-        book_image: book.book_image
+        book_image: book.book_image,
+        primary_isbn10: book.primary_isbn10
       }
     )
   })
   .then(response => response.json())
   .then(savedBook => {
     removeBtn.addEventListener("click", () => {
-      const heart = document.querySelector(`#heart-${book.rank}`);
-      heart.textContent = "♡";
-      heart.classList = "open-heart";
+      const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
+      if (heart) {
+        heart.textContent = "♡";
+        heart.classList = "open-heart";
+      }
       deleteBook(savedBook, li);
     });
   })
 }
 
 function showBuyLinks(book) {
-  buyLinksContainer.innerHTML = "";
-  const buyInnerContainer = document.createElement("div");
-  buyInnerContainer.classList = "details-inner-container";
-  const header = document.createElement("h3");
-  header.textContent = "Links to Purchase Book";
-  const ul = document.createElement("ul");
+  const buylinksList = document.querySelector("#buylinks-list");
+  buylinksList.innerHTML = "";
   book.buy_links.forEach(link => {
     const li = document.createElement("li");
     const buyLink = document.createElement("a");
@@ -263,15 +282,8 @@ function showBuyLinks(book) {
     buyLink.target= "_blank";
     buyLink.textContent = link.name;
     li.append(buyLink);
-    ul.append(li);
+    buylinksList.append(li);
   });
-  const exitBtn = document.createElement("button");
-  exitBtn.textContent = "x";
-  exitBtn.className = "custom-button";
-  exitBtn.id = "exit-btn";
-  exitBtn.addEventListener("click", () => hideBuyLinks());
-  buyInnerContainer.append(exitBtn, header, ul);
-  buyLinksContainer.append(buyInnerContainer);
   buyLinksContainer.style.display = "block";
 }
 
@@ -291,27 +303,8 @@ function deleteBook(book, li) {
   })
 }
 
-function hideDetails() {
-  detailsContainer.style.display = "none";
-}
-
-function hideBuyLinks() {
-  buyLinksContainer.style.display = "none";
-}
-
 function toTitleCase(str) {
   return str.toLowerCase().split(' ').map(function (word) {
     return (word.charAt(0).toUpperCase() + word.slice(1));
   }).join(' ');
-}
-
-// OPEN/CLOSE WISHLIST - CART ICON
-document.querySelector("#wishlist-icon").addEventListener("click", () => toggleWishlist())
-function toggleWishlist() {
-  openWishlist = !openWishlist;
-  if (openWishlist) {
-    wishlistOverlay.style.width = "350px";
-  } else { 
-    wishlistOverlay.style.width = "0px";
-  }
 }

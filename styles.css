@@ -126,7 +126,7 @@ button.custom-button:hover {
   color: #fff;
 }
 
-button.custom-button#exit-btn {
+button.exit-btn {
   float: right;
   position: absolute;
   top: 0;
@@ -200,4 +200,9 @@ form#comment-form {
   font-family: Arial, Helvetica, sans-serif;
   color: red;
   padding: 4px 10px 2px 10px;
+}
+
+#comment-textarea {
+  padding: 5px;
+  margin-right: 5px;
 }
