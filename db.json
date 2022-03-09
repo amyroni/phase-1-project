@@ -1,4 +1,35 @@
 {
   "wishlist": [],
-  "comments": []
+  "comments": [
+    {
+      "book_title": "HOUSE OF SKY AND BREATH",
+      "comment": "a",
+      "id": 1
+    },
+    {
+      "book_title": "HOUSE OF SKY AND BREATH",
+      "comment": "vb",
+      "id": 2
+    },
+    {
+      "book_title": "HOUSE OF SKY AND BREATH",
+      "comment": "d",
+      "id": 3
+    },
+    {
+      "book_title": "HOUSE OF SKY AND BREATH",
+      "comment": "e",
+      "id": 4
+    },
+    {
+      "book_title": "HOUSE OF SKY AND BREATH",
+      "comment": "w",
+      "id": 5
+    },
+    {
+      "book_title": "HOUSE OF SKY AND BREATH",
+      "comment": "hello",
+      "id": 6
+    }
+  ]
 }
