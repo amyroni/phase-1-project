@@ -193,7 +193,7 @@ function addToWishlist(book, heart) {
   heart.classList = "full-heart"
   openWishlist = true;
   //overlay slide
-  wishlistOverlay.style.right = "300px";
+  // wishlistOverlay.style.right = "300px";
   hideDetails();
 
   const li = document.createElement("li");
