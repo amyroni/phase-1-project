@@ -16,18 +16,21 @@ exitBtn.forEach(btn => btn.addEventListener("click", () => {
   detailsContainer.style.display = "none";
   buyLinksContainer.style.display = "none";
 }));
+const BASE_URL = 'http://localhost:3000'
 
 let currentListName; // track current selected list name
 let openWishlist = false; // initialize wishlist display
 let booksInWish = []; // wishlist tracker: keep track of books in wishlist by title
 
 // LOAD INITIAL WISHLIST + COUNT BUBBLE
-fetch("http://localhost:3000/wishlist")
-.then(response => response.json())
-.then(books => {
-  books.forEach(book => addToInitialWishlist(book));
-  countBubble.textContent = books.length;
-})
+
+const init = async () => {
+  let resp = await fetch(`${BASE_URL}/wishlist`);
+  let books = await resp.json();
+    books.forEach(book => addToInitialWishlist(book));
+    countBubble.textContent = books.length;
+}
+init()
 
 // OPEN/CLOSE WISHLIST - CART ICON
 document.querySelector("#wishlist-icon").addEventListener("click", () => toggleWishlist())
@@ -53,7 +56,29 @@ searchForm.addEventListener("submit", (event) => {
   searchForm.reset();
 });
 
+
 // FUNCTIONS
+const newButton = (btnName, classList, btnId, eFunction) => {
+  let btn = document.createElement('button');
+  btn.textContent = btnName;
+  btn.classList = classList;
+  btn.id = btnId;
+  eFunction ? btn.addEventListener('click', eFunction) : null
+  return btn
+}
+
+function newConfigObj (method, body) {
+  const configObj = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(body)
+  }
+  return configObj
+}
+
 function addToInitialWishlist(book) {
   // populate wishlist tracker;
   booksInWish.push(book.title);
@@ -61,20 +86,10 @@ function addToInitialWishlist(book) {
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
   const br = document.createElement("br");
-  const detailsBtn = document.createElement("button");
-  detailsBtn.className = "custom-button";
-  detailsBtn.id = "detailsBtn";
-  detailsBtn.textContent = "Details";
-  detailsBtn.addEventListener("click", () => showDetails(book));
-  const buyBtn = document.createElement("button");
-  buyBtn.textContent = "Buy";
-  buyBtn.className = "custom-button";
-  buyBtn.id = "buyBtn";
-  buyBtn.addEventListener("click", () => showBuyLinks(book));
-  const removeBtn = document.createElement("button");
-  removeBtn.textContent = "Remove";
-  removeBtn.className = "custom-button";
-  removeBtn.id = "removeBtn";
+  const detailsBtn = newButton("Details", "custom-button", "detailsBtn", () => showDetails(book));
+  const buyBtn = newButton('Buy', 'custom-button', 'buyBtn', () => showBuyLinks(book));
+  const removeBtn = newButton('Remove', 'custom-button', 'removeBtn')
+
   removeBtn.addEventListener("click", () => {
     const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
     if (heart) {
@@ -159,17 +174,19 @@ function showDetails(book) {
       commentList.append(p);
     }
   })
+
   // add comment form
   commentFormDiv.innerHTML = "";
   const commentForm = document.createElement("form");
   commentForm.id = "comment-form";
+
   const commentInput = document.createElement("textarea");
   commentInput.placeholder = "Leave a comment!";
   commentInput.id = "comment-textarea";
-  const commentBtn = document.createElement("button");
+  
+  const commentBtn = newButton('Submit', 'custom-button', null , null);
   commentBtn.type = "submit";
-  commentBtn.classList = "custom-button";
-  commentBtn.textContent = "Submit"
+
   commentForm.append(commentInput, commentBtn);
   commentForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -207,7 +224,6 @@ function addComment(book, commentList, comment) {
 function addToWishlist(book) {
   booksInWish.push(book.title); // add book to wishlist tracker
   countBubble.textContent = parseInt(countBubble.textContent) + 1; // update count bubble
-  console.log(booksInWish);
   const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
   if (heart) {
     heart.textContent = "♥";
@@ -220,26 +236,16 @@ function addToWishlist(book) {
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
   const br = document.createElement("br");
-  const detailsBtn = document.createElement("button");
-  detailsBtn.className = "custom-button";
-  detailsBtn.id = "detailsBtn";
-  detailsBtn.textContent = "Details";
-  detailsBtn.addEventListener("click", () => showDetails(book));
-  const buyBtn = document.createElement("button");
-  buyBtn.textContent = "Buy";
-  buyBtn.className = "custom-button";
-  buyBtn.id = "buyBtn";
-  buyBtn.addEventListener("click", () => showBuyLinks(book));
+  const detailsBtn = newButton("Details", "custom-button", "detailsBtn", () => showDetails(book));
+  const buyBtn = newButton('Buy', 'custom-button', 'buyBtn', () => showBuyLinks(book));
   // remove button + functionality
-  const removeBtn = document.createElement("button");
-  removeBtn.textContent = "Remove";
-  removeBtn.className = "custom-button";
-  removeBtn.id = "removeBtn";
+  const removeBtn = newButton('Remove', 'custom-button', 'removeBtn')
   li.append(title, br, detailsBtn, buyBtn, removeBtn);
   document.querySelector("#booklist").append(li);
   // update database
   postToDatabase(book, li, removeBtn);
 }
+
 
 function postToDatabase(book, li, removeBtn) {
   fetch("http://localhost:3000/wishlist", {
@@ -293,15 +299,16 @@ function deleteBook(book, li) {
   booksInWish.splice(index, 1); // remove book from wishlist tracker
   countBubble.textContent = parseInt(countBubble.textContent) - 1; // update count bubble
   li.remove();
-  fetch(`http://localhost:3000/wishlist/${book.id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    }
-  })
+  fetch(`http://localhost:3000/wishlist/${book.id}`, newConfigObj('DELETE', null)
+  // {
+  //   method: "DELETE",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Accept: "application/json"
+  //   }
+  // }
+  )
 }
-
 function toTitleCase(str) {
   return str.toLowerCase().split(' ').map(function (word) {
     return (word.charAt(0).toUpperCase() + word.slice(1));
