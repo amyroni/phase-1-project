@@ -1,4 +1,25 @@
 {
   "wishlist": [],
-  "comments": []
+  "comments": [
+    {
+      "book_title": "ONE ITALIAN SUMMER",
+      "comment": "ey",
+      "id": 1
+    },
+    {
+      "book_title": "ONE ITALIAN SUMMER",
+      "comment": "yyyyy",
+      "id": 2
+    },
+    {
+      "book_title": "THE PARIS APARTMENT",
+      "comment": "hey",
+      "id": 3
+    },
+    {
+      "book_title": "ONE OF US IS LYING",
+      "comment": "hey",
+      "id": 4
+    }
+  ]
 }

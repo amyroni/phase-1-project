@@ -4,18 +4,23 @@ const searchForm = document.querySelector("#list-name-form");
 const searchSelect = document.querySelector("#list-name-select");
 const detailsContainer = document.querySelector("#details-container");
 const buyLinksContainer = document.querySelector("#buylinks-container");
-const buyInnerContainer = document.querySelector("#buylinks-inner-container");
 const thumbnailsContainer = document.querySelector("#thumbnails-container");
 const headingContainer = document.querySelector("#list-name-heading");
 const wishlistOverlay = document.querySelector("#wishlist-overlay");
 const addBtnContainer = document.querySelector("#addBtnContainer");
 const commentFormDiv = document.querySelector("#comment-form-container");
 const exitBtn = document.querySelectorAll(".exit-btn");
+const bookList = document.querySelector("#booklist");
 exitBtn.forEach(btn => btn.addEventListener("click", () => {
   detailsContainer.style.display = "none";
   buyLinksContainer.style.display = "none";
 }));
-const BASE_URL = 'http://localhost:3000'
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    detailsContainer.style.display = "none";
+    buyLinksContainer.style.display = "none";
+  }
+})
 
 let currentListName; // track current selected list name
 let openWishlist = false; // initialize wishlist display
@@ -23,7 +28,7 @@ let booksInWish = []; // wishlist tracker: keep track of books in wishlist by ti
 
 // LOAD INITIAL WISHLIST + COUNT BUBBLE
 const init = async () => {
-  let resp = await fetch(`${BASE_URL}/wishlist`);
+  let resp = await fetch(`http://localhost:3000/wishlist`);
   let books = await resp.json();
     books.forEach(book => {
       booksInWish.push(book.title); // add book to wishlist tracker
@@ -37,11 +42,7 @@ init()
 document.querySelector("#wishlist-icon").addEventListener("click", () => toggleWishlist())
 function toggleWishlist() {
   openWishlist = !openWishlist;
-  if (openWishlist) {
-    wishlistOverlay.style.width = "350px";
-  } else { 
-    wishlistOverlay.style.width = "0px";
-  }
+  openWishlist ? wishlistOverlay.style.width = "350px" : wishlistOverlay.style.width = "0px";
 }
 
 // ADD LIST-NAME SEARCH FUNCTIONALITY
@@ -58,7 +59,7 @@ searchForm.addEventListener("submit", (event) => {
 });
 
 
-// FUNCTIONS
+// Construction FUNCTIONS
 const newButton = (btnName, classList, btnId, eFunction) => {
   let btn = document.createElement('button');
   btn.textContent = btnName;
@@ -68,9 +69,9 @@ const newButton = (btnName, classList, btnId, eFunction) => {
   return btn
 }
 
-function newConfigObj (meth, body) {
+const newConfigObj = (method, body) => {
   const configObj = {
-    method: meth,
+    method,
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -80,6 +81,16 @@ function newConfigObj (meth, body) {
   return configObj
 }
 
+
+function removeFromWishlist (book, li) {
+  const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
+    if (heart) {
+      heart.textContent = "♡";
+      heart.classList = "open-heart";
+    }
+    deleteBook(book, li);
+  }
+
 function displayInWishlist(book) {
   // add book to wishlist display
   const li = document.createElement("li");
@@ -87,17 +98,9 @@ function displayInWishlist(book) {
   const br = document.createElement("br");
   const detailsBtn = newButton("Details", "custom-button", "detailsBtn", () => showDetails(book));
   const buyBtn = newButton('Buy', 'custom-button', 'buyBtn', () => showBuyLinks(book));
-  const removeBtn = newButton('Remove', 'custom-button', 'removeBtn')
-  removeBtn.addEventListener("click", () => {
-    const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
-    if (heart) {
-      heart.textContent = "♡";
-      heart.classList = "open-heart";
-    }
-    deleteBook(book, li);
-  }); 
+  const removeBtn = newButton('Remove', 'custom-button', 'removeBtn', () => removeFromWishlist(book, li));
   li.append(title, br, detailsBtn, buyBtn, removeBtn);
-  document.querySelector("#booklist").append(li);
+  bookList.append(li);
 }
 
 function loadBooks(listName) {
@@ -137,9 +140,7 @@ function showDetails(book) {
   document.querySelector("#detail-author").textContent = `Author: ${book.author}`;
   document.querySelector("#detail-description").textContent = book.description;
   addBtnContainer.innerHTML="";
-  const addBtn = document.createElement("button");
-  addBtn.classList = "custom-button";
-  addBtn.id="addToWish";
+  const addBtn = newButton(null, 'custom-button', 'addToWish', null)
   if (booksInWish.find(bookItem => bookItem === book.title)) {
     addBtn.textContent = "Already in wishlist";
     addBtn.classList = "custom-button already-in-wishlist";
@@ -185,9 +186,7 @@ function showDetails(book) {
   commentForm.append(commentInput, commentBtn);
   commentForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    if (commentList.querySelector("p")) {
-      commentList.querySelector("p").remove();
-    }
+    commentList.querySelector("p") ? commentList.querySelector("p").remove() : null;
     addComment(book, commentList, commentForm.elements[0].value);
     commentForm.reset();
   })
@@ -197,17 +196,10 @@ function showDetails(book) {
 }
 
 function addComment(book, commentList, comment) {
-  fetch("http://localhost:3000/comments", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify({
-      book_title: book.title,
-      comment: comment
-    })
-  })
+  fetch("http://localhost:3000/comments", newConfigObj('POST', {
+    book_title: book.title,
+    comment,
+  }))
   .then(response => response.json())
   .then(newComment => {
     const li = document.createElement("li");
@@ -232,28 +224,19 @@ function addToWishlist(book) {
 }
 
 function postToDatabase(book) {
-  fetch("http://localhost:3000/wishlist", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify(
-      {
-        title: book.title,
-        author: book.author,
-        description: book.description,
-        buy_links: book.buy_links,
-        rank: book.rank,
-        book_image: book.book_image,
-        primary_isbn10: book.primary_isbn10
-      }
-    )
-  })
+  fetch("http://localhost:3000/wishlist", newConfigObj('POST', {
+      title: book.title,
+      author: book.author,
+      description: book.description,
+      buy_links: book.buy_links,
+      rank: book.rank,
+      book_image: book.book_image,
+      primary_isbn10: book.primary_isbn10
+    }
+  ))
   .then(response => response.json())
   .then(savedBook => {
-    displayInWishlist(savedBook);
-  })
+    displayInWishlist(savedBook)})
 }
 
 function showBuyLinks(book) {
@@ -272,10 +255,8 @@ function showBuyLinks(book) {
 }
 
 function deleteBook(book, li) {
-  console.log(booksInWish)
   const index = booksInWish.indexOf(book.title);
   booksInWish.splice(index, 1); // remove book from wishlist tracker
-  console.log(booksInWish)
   countBubble.textContent = parseInt(countBubble.textContent) - 1; // update count bubble
   li.remove();
   fetch(`http://localhost:3000/wishlist/${book.id}`, newConfigObj('DELETE', {}));
