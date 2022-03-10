@@ -27,7 +27,7 @@ img.thumbnail {
 }
 
 img.big-image {
-  width: 40%;
+  width: 35%;
   max-height: 300px;
   margin: auto;
 }
@@ -96,9 +96,6 @@ div.details-inner-container {
   padding: 50px;
   height: 80vh;
   width: 40%;
-}
-
-div.details-inner-inner-container {
   overflow-y: auto;
 }
 
@@ -116,8 +113,6 @@ div#rightContainer {
 ul#comment-list {
   margin: auto;
   width: 60%;
-  height: 25vh;
-  overflow-y: scroll;
 }
 
 div#list-name-heading {
