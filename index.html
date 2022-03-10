@@ -5,6 +5,8 @@
     <title>New York Times Book Search</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="autocomplete.css" />
+    <script defer type="text/javascript" src="src/autocomplete.js"></script>
     <script defer type="text/javascript" src="src/index.js"></script>
   </head>
   <body>
@@ -13,20 +15,11 @@
         <h1 class="main-hero">New York Times Bestsellers Search App</h1>
         <h4>Look up your next read!</h4>
         <div class="container mt-4 mb-3" id="search-bar">
-          <form id="list-name-form">
-            <select id="list-name-select">
-              <option value="" disabled selected>Select List Name</option>
-              <option value="hardcover-fiction">Hardcover Fiction</option>
-              <option value="trade-fiction-paperback">Trade Fiction Paperback</option>
-              <option value="hardcover-nonfiction">Hardcover Nonfiction</option>
-              <option value="paperback-nonfiction">Paperback Nonfiction</option>
-              <option value="young-adult-hardcover">Young Adult Hardcover</option>
-              <option value="travel">Travel</option>
-              <option value="animals">Animals</option>
-              <option value="relationships">Relationships</option>
-              <option value="espionage">Espionage</option>
-            </select>
-            <button type="submit" class="custom-button">Search</button>
+          <form id="list-name-form" autocomplete="off">
+            <div class="autocomplete" style="width:300px;">
+              <input id="myInput" type="text" name="myCountry" placeholder="List Name">
+            </div>
+            <input type="submit" class="custom-button">
           </form>
         </div>
         <p>Select a NYT list name to search for current bestsellers!</p>

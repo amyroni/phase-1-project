@@ -118,7 +118,7 @@ ul#comment-list {
 div#list-name-heading {
   padding: 5px;
 }
-button.custom-button {
+.custom-button {
   padding: 5px 15px;
   font-size: 15px;
   border-radius: 10px;
@@ -129,7 +129,7 @@ button.custom-button {
   font-weight: normal;
 }
 
-button.custom-button:hover {
+.custom-button:hover {
   background: rgba(93, 189, 206);
   color: #fff;
 }

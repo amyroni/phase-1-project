@@ -1,7 +1,8 @@
 // SET GLOBAL VARIABLES
 const countBubble = document.querySelector("#count-bubble");
 const searchForm = document.querySelector("#list-name-form");
-const searchSelect = document.querySelector("#list-name-select");
+const searchInput = document.getElementById("myInput");
+// const searchSelect = document.querySelector("#list-name-select");
 const detailsContainer = document.querySelector("#details-container");
 const buyLinksContainer = document.querySelector("#buylinks-container");
 const thumbnailsContainer = document.querySelector("#thumbnails-container");
@@ -51,15 +52,16 @@ searchForm.addEventListener("submit", (event) => {
   thumbnailsContainer.innerHTML = "";
   headingContainer.innerHTML = "";
   const heading = document.createElement("h2");
-  heading.textContent = searchSelect.options[searchSelect.selectedIndex].textContent;
+  heading.textContent = searchInput.value;
   headingContainer.append(heading);
-  currentListName = searchSelect.value;
-  loadBooks(currentListName);
+  currentListName = searchInput.value;
+  console.log(searchInput.value.toLowerCase().split(" ").join("-"));
+  loadBooks(searchInput.value.toLowerCase().split(" ").join("-"));
   searchForm.reset();
 });
 
 
-// Construction FUNCTIONS
+// CONSTRUCTION FUNCTIONS
 const newButton = (btnName, classList, btnId, eFunction) => {
   let btn = document.createElement('button');
   btn.textContent = btnName;
@@ -92,7 +94,6 @@ function removeFromWishlist (book, li) {
   }
 
 function displayInWishlist(book) {
-  // add book to wishlist display
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
   const br = document.createElement("br");
@@ -134,11 +135,11 @@ function loadThumbnail(book) {
 }
 
 function showDetails(book) {
-  // handle add to wishlist button
   document.querySelector("#detail-img").src = book.book_image;
   document.querySelector("#detail-title").textContent = toTitleCase(book.title);
   document.querySelector("#detail-author").textContent = `Author: ${book.author}`;
   document.querySelector("#detail-description").textContent = book.description;
+  // handle add to wishlist button
   addBtnContainer.innerHTML="";
   const addBtn = newButton(null, 'custom-button', 'addToWish', null)
   if (booksInWish.find(bookItem => bookItem === book.title)) {
@@ -170,7 +171,6 @@ function showDetails(book) {
       commentList.append(p);
     }
   })
-
   // add comment form
   commentFormDiv.innerHTML = "";
   const commentForm = document.createElement("form");
@@ -219,8 +219,7 @@ function addToWishlist(book) {
   wishlistOverlay.style.width = "350px";
   detailsContainer.style.display = "none";
   booksInWish.push(book.title); // add book to wishlist tracker
-  // update database then add book to wishlist display
-  postToDatabase(book);
+  postToDatabase(book); // update database then add book to wishlist display
 }
 
 function postToDatabase(book) {
