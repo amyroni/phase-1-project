@@ -1,7 +1,6 @@
 body {
   text-align: center;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  overflow-x: hidden;
 }
 
 a {
@@ -17,16 +16,20 @@ p.title {
   font-weight: bold;
 }
 
+p#detail-description {
+  max-width: 70%;
+  margin: auto;
+}
+
 img.thumbnail {
   width: 100px;
   margin-bottom: 10px;
 }
 
 img.big-image {
-  max-height: 50vh;
-  max-width: 17.5vw;
-  position: relative;
-  bottom: 2vh;
+  width: 40%;
+  max-height: 300px;
+  margin: auto;
 }
 
 div#header {
@@ -56,7 +59,6 @@ div.thumbnail:hover {
 
 div#wishlist-overlay {
   padding: 20px;  
-  /* float: right; */
   position: absolute;
   display: block;
   transition: 0.3s ease;
@@ -67,9 +69,7 @@ div#wishlist-overlay {
   bottom: 0;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  /* z-index: 2; */
   text-align: left;
-  overflow: hidden;
 }
 
 div.custom-overlay {
@@ -87,21 +87,26 @@ div.custom-overlay {
 
 div.details-inner-container {
   position: absolute;
-  margin: 0 auto;
+  margin: auto;
   top: 50%;
   left: 50%;
   background-color: white;
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
-  padding: 50px 40px 50px 50px;
+  padding: 50px;
+  height: 80vh;
+  width: 40%;
+}
+
+div.details-inner-inner-container {
+  overflow-y: auto;
 }
 
 div#leftContainer {
-  float: left;
-  position: relative;
-  left: -2vw;
-  width: 45%;
+  width: 45%; 
+  margin: auto;
 }
+
 div#rightContainer {
   float: right;
   padding-left: 10px;
@@ -109,11 +114,10 @@ div#rightContainer {
 }
 
 ul#comment-list {
-  line-height: 75%;
-  max-height: 14vh;
+  margin: auto;
+  width: 60%;
+  height: 25vh;
   overflow-y: scroll;
-  text-align: initial;
-  padding-left: 4px
 }
 
 div#list-name-heading {
@@ -155,8 +159,6 @@ button.already-in-wishlist {
 button.add-to-wishlist {
   background: white;
   color: black;
-  position: absolute;
-  bottom: -5vh
 }
 
 button.custom-button#buyBtn, button.custom-button#removeBtn, button.custom-button#detailsBtn {
@@ -218,9 +220,6 @@ form#comment-form {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  position: absolute;
-  height: 30px;
-  bottom: 2.5vh;
 }
 
 .open-heart {
@@ -249,4 +248,17 @@ form#comment-form {
 h4#wishlist-header {
   font-weight: bold; 
   color: rgba(93, 189, 206);
+}
+
+div.buylinks-inner-container {
+  position: absolute;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  padding: 50px;
+  width: 30%;
+  height: 45%;
 }

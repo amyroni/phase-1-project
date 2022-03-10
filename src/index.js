@@ -8,8 +8,7 @@ const buyInnerContainer = document.querySelector("#buylinks-inner-container");
 const thumbnailsContainer = document.querySelector("#thumbnails-container");
 const headingContainer = document.querySelector("#list-name-heading");
 const wishlistOverlay = document.querySelector("#wishlist-overlay");
-const leftContainer = document.querySelector("#leftContainer");
-const rightContainer = document.querySelector("#rightContainer");
+const addBtnContainer = document.querySelector("#addBtnContainer");
 const commentFormDiv = document.querySelector("#comment-form-container");
 const exitBtn = document.querySelectorAll(".exit-btn");
 exitBtn.forEach(btn => btn.addEventListener("click", () => {
@@ -23,11 +22,13 @@ let openWishlist = false; // initialize wishlist display
 let booksInWish = []; // wishlist tracker: keep track of books in wishlist by title
 
 // LOAD INITIAL WISHLIST + COUNT BUBBLE
-
 const init = async () => {
   let resp = await fetch(`${BASE_URL}/wishlist`);
   let books = await resp.json();
-    books.forEach(book => addToInitialWishlist(book));
+    books.forEach(book => {
+      booksInWish.push(book.title); // add book to wishlist tracker
+      displayInWishlist(book);
+    });
     countBubble.textContent = books.length;
 }
 init()
@@ -67,9 +68,9 @@ const newButton = (btnName, classList, btnId, eFunction) => {
   return btn
 }
 
-function newConfigObj (method, body) {
+function newConfigObj (meth, body) {
   const configObj = {
-    method,
+    method: meth,
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -79,9 +80,7 @@ function newConfigObj (method, body) {
   return configObj
 }
 
-function addToInitialWishlist(book) {
-  // populate wishlist tracker;
-  booksInWish.push(book.title);
+function displayInWishlist(book) {
   // add book to wishlist display
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
@@ -89,7 +88,6 @@ function addToInitialWishlist(book) {
   const detailsBtn = newButton("Details", "custom-button", "detailsBtn", () => showDetails(book));
   const buyBtn = newButton('Buy', 'custom-button', 'buyBtn', () => showBuyLinks(book));
   const removeBtn = newButton('Remove', 'custom-button', 'removeBtn')
-
   removeBtn.addEventListener("click", () => {
     const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
     if (heart) {
@@ -133,14 +131,12 @@ function loadThumbnail(book) {
 }
 
 function showDetails(book) {
-  // handle left container
+  // handle add to wishlist button
   document.querySelector("#detail-img").src = book.book_image;
   document.querySelector("#detail-title").textContent = toTitleCase(book.title);
   document.querySelector("#detail-author").textContent = `Author: ${book.author}`;
   document.querySelector("#detail-description").textContent = book.description;
-  if (document.querySelector("#addToWish")) {
-    document.querySelector("#addToWish").remove();
-  }
+  addBtnContainer.innerHTML="";
   const addBtn = document.createElement("button");
   addBtn.classList = "custom-button";
   addBtn.id="addToWish";
@@ -153,8 +149,7 @@ function showDetails(book) {
     addBtn.classList = "custom-button add-to-wishlist";
     addBtn.addEventListener("click", () => addToWishlist(book));
   }
-  leftContainer.append(addBtn);
-  // handle right container
+  addBtnContainer.append(addBtn);
   // show existing comments
   const commentList = document.querySelector("#comment-list");
   commentList.innerHTML = "";
@@ -222,7 +217,6 @@ function addComment(book, commentList, comment) {
 }
 
 function addToWishlist(book) {
-  booksInWish.push(book.title); // add book to wishlist tracker
   countBubble.textContent = parseInt(countBubble.textContent) + 1; // update count bubble
   const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
   if (heart) {
@@ -232,22 +226,12 @@ function addToWishlist(book) {
   openWishlist = true;
   wishlistOverlay.style.width = "350px";
   detailsContainer.style.display = "none";
-  // add book to wishlist display
-  const li = document.createElement("li");
-  const title = toTitleCase(book.title);
-  const br = document.createElement("br");
-  const detailsBtn = newButton("Details", "custom-button", "detailsBtn", () => showDetails(book));
-  const buyBtn = newButton('Buy', 'custom-button', 'buyBtn', () => showBuyLinks(book));
-  // remove button + functionality
-  const removeBtn = newButton('Remove', 'custom-button', 'removeBtn')
-  li.append(title, br, detailsBtn, buyBtn, removeBtn);
-  document.querySelector("#booklist").append(li);
-  // update database
-  postToDatabase(book, li, removeBtn);
+  booksInWish.push(book.title); // add book to wishlist tracker
+  // update database then add book to wishlist display
+  postToDatabase(book);
 }
 
-
-function postToDatabase(book, li, removeBtn) {
+function postToDatabase(book) {
   fetch("http://localhost:3000/wishlist", {
     method: "POST",
     headers: {
@@ -268,14 +252,7 @@ function postToDatabase(book, li, removeBtn) {
   })
   .then(response => response.json())
   .then(savedBook => {
-    removeBtn.addEventListener("click", () => {
-      const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
-      if (heart) {
-        heart.textContent = "♡";
-        heart.classList = "open-heart";
-      }
-      deleteBook(savedBook, li);
-    });
+    displayInWishlist(savedBook);
   })
 }
 
@@ -295,20 +272,15 @@ function showBuyLinks(book) {
 }
 
 function deleteBook(book, li) {
+  console.log(booksInWish)
   const index = booksInWish.indexOf(book.title);
   booksInWish.splice(index, 1); // remove book from wishlist tracker
+  console.log(booksInWish)
   countBubble.textContent = parseInt(countBubble.textContent) - 1; // update count bubble
   li.remove();
-  fetch(`http://localhost:3000/wishlist/${book.id}`, newConfigObj('DELETE', null)
-  // {
-  //   method: "DELETE",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     Accept: "application/json"
-  //   }
-  // }
-  )
+  fetch(`http://localhost:3000/wishlist/${book.id}`, newConfigObj('DELETE', {}));
 }
+
 function toTitleCase(str) {
   return str.toLowerCase().split(' ').map(function (word) {
     return (word.charAt(0).toUpperCase() + word.slice(1));
