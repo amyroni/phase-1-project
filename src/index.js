@@ -1,58 +1,108 @@
+// SET GLOBAL VARIABLES
+const countBubble = document.querySelector("#count-bubble");
 const searchForm = document.querySelector("#list-name-form");
-const searchSelect = document.querySelector("#list-name-select");
+const searchInput = document.getElementById("myInput");
+// const searchSelect = document.querySelector("#list-name-select");
 const detailsContainer = document.querySelector("#details-container");
 const buyLinksContainer = document.querySelector("#buylinks-container");
-const booksContainer = document.querySelector("#books-container");
+const thumbnailsContainer = document.querySelector("#thumbnails-container");
 const headingContainer = document.querySelector("#list-name-heading");
 const wishlistOverlay = document.querySelector("#wishlist-overlay");
+const addBtnContainer = document.querySelector("#addBtnContainer");
+const commentFormDiv = document.querySelector("#comment-form-container");
+const exitBtn = document.querySelectorAll(".exit-btn");
+const bookList = document.querySelector("#booklist");
+exitBtn.forEach(btn => btn.addEventListener("click", () => {
+  detailsContainer.style.display = "none";
+  buyLinksContainer.style.display = "none";
+}));
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    detailsContainer.style.display = "none";
+    buyLinksContainer.style.display = "none";
+  }
+})
 
-let currentListName;
-let openWishlist = false;
+let currentListName; // track current selected list name
+let openWishlist = false; // initialize wishlist display
+let booksInWish = []; // wishlist tracker: keep track of books in wishlist by title
 
-// loading initial wishlist
-fetch("http://localhost:3000/wishlist")
-.then(response => response.json())
-.then(books => books.forEach(book => {
+// LOAD INITIAL WISHLIST + COUNT BUBBLE
+const init = async () => {
+  let resp = await fetch(`http://localhost:3000/wishlist`);
+  let books = await resp.json();
+    books.forEach(book => {
+      booksInWish.push(book.title); // add book to wishlist tracker
+      displayInWishlist(book);
+    });
+    countBubble.textContent = books.length;
+}
+init()
+
+// OPEN/CLOSE WISHLIST - CART ICON
+document.querySelector("#wishlist-icon").addEventListener("click", () => toggleWishlist())
+function toggleWishlist() {
+  openWishlist = !openWishlist;
+  openWishlist ? wishlistOverlay.style.width = "350px" : wishlistOverlay.style.width = "0px";
+}
+
+// ADD LIST-NAME SEARCH FUNCTIONALITY
+searchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  thumbnailsContainer.innerHTML = "";
+  headingContainer.innerHTML = "";
+  const heading = document.createElement("h2");
+  heading.textContent = searchInput.value;
+  headingContainer.append(heading);
+  currentListName = searchInput.value;
+  console.log(searchInput.value.toLowerCase().split(" ").join("-"));
+  loadBooks(searchInput.value.toLowerCase().split(" ").join("-"));
+  searchForm.reset();
+});
+
+
+// CONSTRUCTION FUNCTIONS
+const newButton = (btnName, classList, btnId, eFunction) => {
+  let btn = document.createElement('button');
+  btn.textContent = btnName;
+  btn.classList = classList;
+  btn.id = btnId;
+  eFunction ? btn.addEventListener('click', eFunction) : null
+  return btn
+}
+
+const newConfigObj = (method, body) => {
+  const configObj = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(body)
+  }
+  return configObj
+}
+
+
+function removeFromWishlist (book, li) {
+  const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
+    if (heart) {
+      heart.textContent = "♡";
+      heart.classList = "open-heart";
+    }
+    deleteBook(book, li);
+  }
+
+function displayInWishlist(book) {
   const li = document.createElement("li");
   const title = toTitleCase(book.title);
   const br = document.createElement("br");
-  const detailsBtn = document.createElement("button");
-  detailsBtn.className = "custom-button";
-  detailsBtn.id = "detailsBtn";
-  detailsBtn.textContent = "Details";
-  detailsBtn.addEventListener("click", () => showDetails(book, "heart", "true"));
-  const buyBtn = document.createElement("button");
-  buyBtn.textContent = "Buy";
-  buyBtn.className = "custom-button";
-  buyBtn.id = "buyBtn";
-  buyBtn.addEventListener("click", () => showBuyLinks(book));
-  const removeBtn = document.createElement("button");
-  removeBtn.textContent = "Remove";
-  removeBtn.className = "custom-button";
-  removeBtn.id = "removeBtn";
-  removeBtn.addEventListener("click", () => {
-    deleteBook(book, li);
-    // reload thumbnails so hearts refresh
-    booksContainer.innerHTML = "";
-    loadBooks(currentListName);
-  }); 
+  const detailsBtn = newButton("Details", "custom-button", "detailsBtn", () => showDetails(book));
+  const buyBtn = newButton('Buy', 'custom-button', 'buyBtn', () => showBuyLinks(book));
+  const removeBtn = newButton('Remove', 'custom-button', 'removeBtn', () => removeFromWishlist(book, li));
   li.append(title, br, detailsBtn, buyBtn, removeBtn);
-  document.querySelector("#booklist").append(li);
-}))
-
-searchForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  booksContainer.innerHTML = "";
-  headingContainer.innerHTML = "";
-  const heading = document.createElement("h2");
-  heading.textContent = searchSelect.options[searchSelect.selectedIndex].textContent;
-  headingContainer.append(heading);
-  currentListName = searchSelect.value;
-  console.log(currentListName);
-
-  loadBooks(currentListName);
-  searchForm.reset();
-});
+  bookList.append(li);
+}
 
 function loadBooks(listName) {
   fetch(`https://api.nytimes.com/svc/books/v3/lists/current/${listName}.json?api-key=aNs4DvNstJ3L1WqPFzC9YFpp07TYJ95D`)
@@ -61,216 +111,136 @@ function loadBooks(listName) {
 }
 
 function loadThumbnail(book) {
-  let exists2;
+  let exists = false;
   const thumbnailCard = document.createElement("div");
   thumbnailCard.className = "thumbnail";
   thumbnailCard.style.backgroundImage = `url("${book.book_image}")`;
   const thumbnailRank = document.createElement("span");
   thumbnailRank.textContent = `#${book.rank}`;
-  thumbnailRank.id = "rank";
+  thumbnailRank.className = "rank";
   const heart = document.createElement("span");
-  // make a fetch request + find if find true then heart textContent = red
-  fetch("http://localhost:3000/wishlist")
-  .then(response => response.json())
-  .then(books => {
-    const exists = books.find(dbBook => dbBook.title === book.title);
-    exists2 = exists;
-    if (exists) {
-      heart.textContent = "♥";
-      heart.style.color = "red";
-      heart.style.padding = "4px 10px 2px 10px";
-    } else { 
-      heart.textContent = "♡" ;
-      heart.style.color = "black";
-      heart.style.padding = "4px 8px 2px 8px";
-    }
-  })
-  heart.className = "heart";
+  if (booksInWish.find(element => element === book.title)) {
+    heart.textContent = "♥";
+    heart.classList = "full-heart";
+    exists = true;
+  } else {
+    heart.textContent = "♡" ;
+    heart.classList = "open-heart";
+  }
+  heart.id = `heart-${book.primary_isbn10}`;
   const br = document.createElement("br");
-  // const thumbnailImg = document.createElement("img");
-  // thumbnailImg.src = book.book_image;
-  // thumbnailImg.className = "thumbnail";
-  // thumbnailImg.style.cursor = "pointer";
-  thumbnailCard.addEventListener("click", () => showDetails(book, heart, exists2));
-  // const thumbnailHeader = document.createElement("p");
-  // thumbnailHeader.textContent = toTitleCase(book.title);
-  // thumbnailHeader.className = "title";
+  thumbnailCard.addEventListener("click", () => showDetails(book));
   thumbnailCard.append(thumbnailRank, heart, br);
-  booksContainer.append(thumbnailCard);
+  thumbnailsContainer.append(thumbnailCard);
 }
 
-function showDetails(book, heart, exists) {
-  detailsContainer.innerHTML = "";
-  const detailsInnerContainer = document.createElement("div");
-  detailsInnerContainer.classList = "details-inner-container d-flex inline";
-  const leftContainer = document.createElement("div");
-  leftContainer.id = "leftContainer";
-  leftContainer.classList = "d-flex flex-column align-items-center";
-  const rightContainer = document.createElement("div");
-  rightContainer.id = "rightContainer";
-  const exitBtn = document.createElement("button")
-  exitBtn.textContent = "x";
-  exitBtn.className = "custom-button";
-  exitBtn.id = "exit-btn";
-  exitBtn.addEventListener("click", () => hideDetails());
-  const bookImg = document.createElement("img");
-  bookImg.src = book.book_image;
-  bookImg.className = "big-image";
-  const bookTitle = document.createElement("h2");
-  bookTitle.textContent = toTitleCase(book.title);
-  const bookAuthor = document.createElement("h4");
-  bookAuthor.textContent = `Author: ${book.author}`;
-  const bookDescription = document.createElement("p");
-  bookDescription.textContent = book.description;
+function showDetails(book) {
+  document.querySelector("#detail-img").src = book.book_image;
+  document.querySelector("#detail-title").textContent = toTitleCase(book.title);
+  document.querySelector("#detail-author").textContent = `Author: ${book.author}`;
+  document.querySelector("#detail-description").textContent = book.description;
+  // handle add to wishlist button
+  addBtnContainer.innerHTML="";
+  const addBtn = newButton(null, 'custom-button', 'addToWish', null)
+  if (booksInWish.find(bookItem => bookItem === book.title)) {
+    addBtn.textContent = "Already in wishlist";
+    addBtn.classList = "custom-button already-in-wishlist";
+  }
+  else {
+    addBtn.textContent = "Add to wishlist";
+    addBtn.classList = "custom-button add-to-wishlist";
+    addBtn.addEventListener("click", () => addToWishlist(book));
+  }
+  addBtnContainer.append(addBtn);
   // show existing comments
-  const commentsHeading = document.createElement("h4");
-  commentsHeading.textContent = "Comments:";
-  commentsHeading.style.fontWeight = "bold";
-  const commentList = document.createElement("ul");
+  const commentList = document.querySelector("#comment-list");
+  commentList.innerHTML = "";
   fetch("http://localhost:3000/comments")
   .then(response => response.json())
   .then(comments => {
     const bookComments = comments.filter(comment => comment.book_title === book.title);
-    bookComments.forEach(bookComment => {
-      const li = document.createElement("li");
-      li.textContent = bookComment.comment;
-      commentList.append(li);
-    })
+    if (bookComments.length > 0) {
+      bookComments.forEach(bookComment => {
+        const li = document.createElement("li");
+        li.textContent = bookComment.comment;
+        commentList.append(li);
+      })
+    } else { 
+      const p = document.createElement("p");
+      p.textContent = "No comments yet";
+      commentList.append(p);
+    }
   })
-  //add comment form
-  const commentFormDiv = document.createElement("div");
-  commentFormDiv.classList = "d-flex flex-row align-items-center justify-content-center mt-3 mb-3";
+  // add comment form
+  commentFormDiv.innerHTML = "";
   const commentForm = document.createElement("form");
   commentForm.id = "comment-form";
+
   const commentInput = document.createElement("textarea");
   commentInput.placeholder = "Leave a comment!";
-  commentInput.style.padding = "5px";
-  commentInput.style.marginRight = "5px";
-  const commentBtn = document.createElement("button");
+  commentInput.id = "comment-textarea";
+  
+  const commentBtn = newButton('Submit', 'custom-button', null , null);
   commentBtn.type = "submit";
-  commentBtn.className = "custom-button";
-  commentBtn.textContent = "Submit"
+
   commentForm.append(commentInput, commentBtn);
   commentForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    commentList.querySelector("p") ? commentList.querySelector("p").remove() : null;
     addComment(book, commentList, commentForm.elements[0].value);
     commentForm.reset();
   })
   commentFormDiv.append(commentForm);
-
-  const addBtn = document.createElement("button");
-  addBtn.className = "custom-button";
-  console.log(exists)
-  if (exists) {
-    addBtn.textContent = "Already in wishlist"
-    addBtn.style.background = "rgba(93, 189, 206)";
-    addBtn.style.color = "white";
-  }
-  else {
-    addBtn.textContent = "Add to wishlist";
-    addBtn.style.background = "white";
-    addBtn.style.color = "black";
-    addBtn.addEventListener("click", () => addToWishlist(book, heart));
-  }
-
-  leftContainer.append(bookImg, addBtn);
-  rightContainer.append(bookTitle, bookAuthor, bookDescription, commentsHeading, commentList, commentFormDiv);
-  detailsInnerContainer.append(exitBtn, leftContainer, rightContainer);
-  detailsContainer.append(detailsInnerContainer);
+  // display overlay
   detailsContainer.style.display = "block";
 }
 
 function addComment(book, commentList, comment) {
-  fetch("http://localhost:3000/comments", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify({
-      book_title: book.title,
-      comment: comment
-    })
-  })
+  fetch("http://localhost:3000/comments", newConfigObj('POST', {
+    book_title: book.title,
+    comment,
+  }))
   .then(response => response.json())
   .then(newComment => {
-    console.log(newComment)
     const li = document.createElement("li");
     li.textContent = newComment.comment;
     commentList.append(li);
   })
 }
 
-function addToWishlist(book, heart) {
-  heart.textContent = "♥";
-  heart.style.color = "red";
-  heart.style.padding = "4px 10px 2px 10px";
+function addToWishlist(book) {
+  countBubble.textContent = parseInt(countBubble.textContent) + 1; // update count bubble
+  const heart = document.querySelector(`#heart-${book.primary_isbn10}`);
+  if (heart) {
+    heart.textContent = "♥";
+    heart.classList = "full-heart";
+  }
   openWishlist = true;
-  wishlistOverlay.style.right = "0";
-  hideDetails();
-  const li = document.createElement("li");
-  const title = toTitleCase(book.title);
-  const br = document.createElement("br");
-  const detailsBtn = document.createElement("button");
-  detailsBtn.className = "custom-button";
-  detailsBtn.id = "detailsBtn";
-  detailsBtn.textContent = "Details";
-  detailsBtn.addEventListener("click", () => showDetails(book, heart, "true"));
-  const buyBtn = document.createElement("button");
-  buyBtn.textContent = "Buy";
-  buyBtn.className = "custom-button";
-  buyBtn.id = "buyBtn";
-  buyBtn.addEventListener("click", () => showBuyLinks(book));
-  const removeBtn = document.createElement("button");
-  removeBtn.textContent = "Remove";
-  removeBtn.className = "custom-button";
-  removeBtn.id = "removeBtn";
-
-  li.append(title, br, detailsBtn, buyBtn, removeBtn);
-  document.querySelector("#booklist").append(li);
-
-  postToDatabase(book, li, heart, removeBtn);
+  wishlistOverlay.style.width = "350px";
+  detailsContainer.style.display = "none";
+  booksInWish.push(book.title); // add book to wishlist tracker
+  postToDatabase(book); // update database then add book to wishlist display
 }
 
-function postToDatabase(book, li, heart, removeBtn) {
-  fetch("http://localhost:3000/wishlist", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify(
-      {
-        title: book.title,
-        author: book.author,
-        description: book.description,
-        buy_links: book.buy_links,
-        rank: book.rank,
-        book_image: book.book_image
-      }
-    )
-  })
+function postToDatabase(book) {
+  fetch("http://localhost:3000/wishlist", newConfigObj('POST', {
+      title: book.title,
+      author: book.author,
+      description: book.description,
+      buy_links: book.buy_links,
+      rank: book.rank,
+      book_image: book.book_image,
+      primary_isbn10: book.primary_isbn10
+    }
+  ))
   .then(response => response.json())
-  .then(book => {
-    removeBtn.addEventListener("click", () => {
-    heart.textContent = "♡";
-    heart.style.color = "black";
-    deleteBook(book, li);
-    });
-    // reload thumbnails so hearts/addbtn refresh
-    booksContainer.innerHTML = "";
-    loadBooks(currentListName);
-    console.log("RELOADED")
-  })
+  .then(savedBook => {
+    displayInWishlist(savedBook)})
 }
 
 function showBuyLinks(book) {
-  buyLinksContainer.innerHTML = "";
-  const buyInnerContainer = document.createElement("div");
-  buyInnerContainer.classList = "details-inner-container";
-  const header = document.createElement("h3");
-  header.textContent = "Links to Purchase Book";
-  const ul = document.createElement("ul");
+  const buylinksList = document.querySelector("#buylinks-list");
+  buylinksList.innerHTML = "";
   book.buy_links.forEach(link => {
     const li = document.createElement("li");
     const buyLink = document.createElement("a");
@@ -278,54 +248,21 @@ function showBuyLinks(book) {
     buyLink.target= "_blank";
     buyLink.textContent = link.name;
     li.append(buyLink);
-    ul.append(li);
+    buylinksList.append(li);
   });
-  const exitBtn = document.createElement("button");
-  exitBtn.textContent = "x";
-  exitBtn.className = "custom-button";
-  exitBtn.id = "exit-btn";
-  exitBtn.addEventListener("click", () => hideBuyLinks());
-  buyInnerContainer.append(exitBtn, header, ul);
-  buyLinksContainer.append(buyInnerContainer);
   buyLinksContainer.style.display = "block";
 }
 
 function deleteBook(book, li) {
+  const index = booksInWish.indexOf(book.title);
+  booksInWish.splice(index, 1); // remove book from wishlist tracker
+  countBubble.textContent = parseInt(countBubble.textContent) - 1; // update count bubble
   li.remove();
-  fetch(`http://localhost:3000/wishlist/${book.id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    }
-  })
-  // reload thumbnails so hearts/addbtn refresh
-  booksContainer.innerHTML = "";
-  loadBooks(currentListName);
-  console.log("RELOADED")
-}
-
-function hideDetails() {
-  detailsContainer.style.display = "none";
-}
-
-function hideBuyLinks() {
-  buyLinksContainer.style.display = "none";
+  fetch(`http://localhost:3000/wishlist/${book.id}`, newConfigObj('DELETE', {}));
 }
 
 function toTitleCase(str) {
   return str.toLowerCase().split(' ').map(function (word) {
     return (word.charAt(0).toUpperCase() + word.slice(1));
   }).join(' ');
-}
-
-// OPEN/CLOSE WISHLIST - CART ICON
-document.querySelector("#wishlist-icon").addEventListener("click", () => toggleWishlist())
-function toggleWishlist() {
-  openWishlist = !openWishlist;
-  if (openWishlist) {
-    wishlistOverlay.style.right = "0";
-  } else { 
-    wishlistOverlay.style.right = "-350px";
-  }
 }

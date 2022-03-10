@@ -1,7 +1,5 @@
 body {
   text-align: center;
-  /* font-family:'Courier New', Courier, monospace; */
-  /* font-family: Georgia, 'Times New Roman', Times, serif; */
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
@@ -18,14 +16,20 @@ p.title {
   font-weight: bold;
 }
 
+p#detail-description {
+  max-width: 70%;
+  margin: auto;
+}
+
 img.thumbnail {
   width: 100px;
   margin-bottom: 10px;
 }
 
 img.big-image {
-  width: 200px;
-  margin-bottom: 20px;
+  width: 35%;
+  max-height: 300px;
+  margin: auto;
 }
 
 div#header {
@@ -37,7 +41,6 @@ div#header {
 div.thumbnail {
   background-size: cover;
   background-position: center;
-  border-color: #FFCB05;
   padding: 15px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: width 0.5s ease-in-out;
@@ -49,61 +52,73 @@ div.thumbnail {
   cursor: pointer;
 }
 
+div.thumbnail:hover {
+  box-shadow: 0 8px 16px 0 rgba(93, 189, 206, 0.9);
+  border: solid 1.5px rgba(93, 189, 206, 0.9);
+}
+
 div#wishlist-overlay {
-  padding: 20px;
-  float: right;
+  padding: 20px;  
   position: absolute;
   display: block;
   transition: 0.3s ease;
-  width: 350px;
-  height: fit-content; 
+  width: 0;
+  height: fit-content;
   top: 350px;
-  right: -350px;
+  right: -40px;
   bottom: 0;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  z-index: 2; 
   text-align: left;
 }
 
 div.custom-overlay {
-  position: fixed; /* Sit on top of the page content */
-  display: none; /* Hidden by default */
-  width: 100%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
 }
 
 div.details-inner-container {
   position: absolute;
+  margin: auto;
   top: 50%;
   left: 50%;
   background-color: white;
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
-  padding: 50px; 
+  padding: 50px;
+  height: 80vh;
   width: 40%;
+  overflow-y: auto;
 }
 
 div#leftContainer {
-  float: left;
+  width: 45%; 
+  margin: auto;
 }
 
 div#rightContainer {
   float: right;
-  padding: 15px 20px;
+  padding-left: 10px;
+  width: 55%;
+}
+
+ul#comment-list {
+  margin: auto;
+  width: 60%;
 }
 
 div#list-name-heading {
   padding: 5px;
 }
-
-button.custom-button {
+.custom-button {
   padding: 5px 15px;
   font-size: 15px;
   border-radius: 10px;
@@ -114,20 +129,31 @@ button.custom-button {
   font-weight: normal;
 }
 
-button.custom-button:hover {
+.custom-button:hover {
   background: rgba(93, 189, 206);
   color: #fff;
 }
 
-button.custom-button#exit-btn {
+button.exit-btn {
   float: right;
   position: absolute;
-  height: 40px;
-  margin: 20px;
   top: 0;
   right: 0;
-  bottom: 0;
-  z-index: 2; 
+  margin: 0.4rem;
+  padding: 8px;
+  padding-top: 0.3px;
+  padding-bottom: 1.2px;
+}
+
+button.already-in-wishlist {
+  background: rgba(93, 189, 206);
+  color: white;
+  cursor: default;
+}
+
+button.add-to-wishlist {
+  background: white;
+  color: black;
 }
 
 button.custom-button#buyBtn, button.custom-button#removeBtn, button.custom-button#detailsBtn {
@@ -141,48 +167,93 @@ ul {
   padding: 0;
 }
 
-span#wishlist-icon {
-  float: right;
-  margin: 0 0 -20px 0;
+div#wishlist-icon-container {
+  position: absolute;
+  right: 8vw;
+  margin-bottom: -20px;
   font-weight: bold;
   cursor: pointer;
+}
+
+span#wishlist-icon {
   border-radius: 10px;
   border: solid 1px rgb(30, 61, 66);
   background: white;
-  padding: 5px 10px 5px 15px;
+  padding: 13px 8px 15px 13px;
 }
 
 img#wishlist-img {
   width: 30px;
 }
 
+p#count-bubble {
+  float: right;
+  position: relative;
+  left: -15px;
+  top: -20px;
+  background-color: red;
+  color: white;
+  border-radius: 15px;
+  padding: 2px 10px;
+}
+
 li {
   border-bottom: 1px solid rgba(93, 189, 206);
   padding: 10px 0;
 }
-
 #list-name-select {
   padding: 5px;
 }
 
-span.heart {
-  float: right;
-  background-color: white;
-  border-radius: 15px;
-  padding: 4px 8px 2px 8px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-span#rank {
+span.rank {
   float: left;
   background-color: white;
   border-radius: 15px;
   padding: 2px 7px;
 }
-
 form#comment-form {
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: center;
+}
+
+.open-heart {
+  float: right;
+  background-color: white;
+  border-radius: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: black;
+  padding: 4px 8px 2px 8px;
+}
+
+.full-heart {
+  float: right;
+  background-color: white;
+  border-radius: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: red;
+  padding: 4px 10px 2px 10px;
+}
+
+#comment-textarea {
+  padding: 5px;
+  margin-right: 5px;
+}
+
+h4#wishlist-header {
+  font-weight: bold; 
+  color: rgba(93, 189, 206);
+}
+
+div.buylinks-inner-container {
+  position: absolute;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  padding: 50px;
+  width: 30%;
+  height: 45%;
 }
