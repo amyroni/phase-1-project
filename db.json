@@ -1,4 +1,20 @@
 {
   "wishlist": [],
-  "comments": []
+  "comments": [
+    {
+      "book_title": "COMEDY COMEDY COMEDY DRAMA",
+      "comment": "Better call Saul!",
+      "id": 1
+    },
+    {
+      "book_title": "COMEDY COMEDY COMEDY DRAMA",
+      "comment": "I love this book!",
+      "id": 2
+    },
+    {
+      "book_title": "COMEDY COMEDY COMEDY DRAMA",
+      "comment": "I don't love this book 👎",
+      "id": 3
+    }
+  ]
 }
